@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../BackEnd" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../BillingApp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../BillingDev" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../BillingOkjt" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../BillingOkjtt-T" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../JudoTournament" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../Test" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../TestJudoTimer" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../lcm-web-service" vcs="Git" />
+  </component>
+</project>

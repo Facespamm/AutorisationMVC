@@ -1,6 +1,6 @@
 ﻿namespace Autorisation.Enum
 {
-    public enum Status
+    public enum StatusEnum
     {
         Unverified,
         Active,
