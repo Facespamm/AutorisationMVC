@@ -39,30 +39,6 @@ namespace Autorisation.Controllers
                 return Unauthorized();
             }
         }
-
-        [HttpPut("api/autorisation/updateStatus/{id}")]
-        public async Task<IActionResult> UpdateStatus(int id, [FromBody] string status)
-        {
-            AutorisationUsers autorisationUsers = new AutorisationUsers(_context);
-
-            var result = autorisationUsers.ChangeStatus(status, id);
-            return Ok(result);
-        }
-
-        [HttpDelete("api/autorisation/deleteUsers/")]
-            public async Task<IActionResult> DeleteUsers(List<int> ids)
-            {
-                var user = await _context.Autorisations.Where(x=> ids.Contains(x.Id)).ToListAsync();
-                
-                if (user.Count == 0)
-                {
-                    return NotFound();
-                }
-                _context.Autorisations.RemoveRange(user);
-                await _context.SaveChangesAsync();
-
-                return NoContent();
-            }
-        }
     }
+}
 

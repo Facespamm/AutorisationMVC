@@ -1,6 +1,7 @@
 using Autorisation.Context;
 using Autorisation.Enum;
 using Autorisation.Migrations;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutorisationMVC.Services;
 
@@ -32,22 +33,24 @@ public class AutorisationUsers
         }
     }
 
-    public string ChangeStatus(string status, int id)
+    public async Task<string> ChangeStatus(string status, List<int> ids)
     {
         if( !System.Enum.TryParse<StatusEnum>(status,true, out var parsedStatus))
         {
             return "Invalid status value.";
         }
-        var user = _context.Autorisations.FirstOrDefault(x => x.Id == id);
-        {
-            if (user != null)
-            {
-                user.Status = parsedStatus;
+        var users = await _context.Autorisations.Where(x => ids.Contains(x.Id)).ToListAsync();
+                if (users.Count == 0)
+                {
+                    return "No users found.";
+                }
+                foreach (var user in users)
+                {
+                    user.Status = parsedStatus;
+                    user.Status = parsedStatus;
+                }
                 _context.SaveChanges();
                 return  "Successfully changed status";
-            }
-        }
-        return  "Failed to change status";
-        
+            
     }
 }
