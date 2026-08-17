@@ -1,4 +1,5 @@
 ﻿using Autorisation.Context;
+using AutorisationMVC;
 using AutorisationMVC.Dto;
 using AutorisationMVC.Mappers;
 using AutorisationMVC.Services;
@@ -7,13 +8,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Autorisation.Controllers
 {
-    public class AutorisationControllerP : Controller
+    public class AutorisationController : Controller
     {
         private AppDbContext _context;
+        private IEmailSender _emailSender;
 
-        public AutorisationControllerP(AppDbContext context)
+        public AutorisationController(AppDbContext context,IEmailSender emailSender)
         {
             _context = context;
+            _emailSender = emailSender;
         }
 
         [HttpPost]
@@ -22,13 +25,18 @@ namespace Autorisation.Controllers
             var registration = registrationDto.ToCreateRegistration();
             await _context.AddRangeAsync(registration);
             await _context.SaveChangesAsync();
+            var token = Guid.NewGuid().ToString();
+            IEmailSender emailSender = _emailSender;
+            AutorisationUsers autorisationUsers = new AutorisationUsers(_context,_emailSender);
+          await autorisationUsers.SendConfirmEmail(registration.Email, token);
+
             return Ok(registration);
         }
 
         [HttpPost("api/autorisation/login")]
         public async Task<IActionResult> Login([FromBody] string password, [FromRoute] string email)
         {
-            AutorisationUsers autorisationUsers = new AutorisationUsers(_context);
+            AutorisationUsers autorisationUsers = new AutorisationUsers(_context,_emailSender);
             var result = autorisationUsers.Login(email, password);
             if (result == "Successfully logged in.")
             {

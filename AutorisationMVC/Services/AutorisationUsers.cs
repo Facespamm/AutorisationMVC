@@ -1,6 +1,7 @@
 using Autorisation.Context;
 using Autorisation.Enum;
 using Autorisation.Migrations;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AutorisationMVC.Services;
@@ -8,10 +9,13 @@ namespace AutorisationMVC.Services;
 public class AutorisationUsers
 {
     private AppDbContext _context;
-
-    public AutorisationUsers(AppDbContext context)
+    private readonly IEmailSender _emailSender;
+    
+    public AutorisationUsers(AppDbContext context,IEmailSender emailSender)
     {
         _context = context;
+        _emailSender = emailSender;
+
     }
 
     public string Login(string email, string password)
@@ -31,6 +35,7 @@ public class AutorisationUsers
         {
             return "Successfully logged in.";
         }
+
     }
 
     public async Task<string> ChangeStatus(string status, List<int> ids)
@@ -47,10 +52,20 @@ public class AutorisationUsers
                 foreach (var user in users)
                 {
                     user.Status = parsedStatus;
-                    user.Status = parsedStatus;
                 }
-                _context.SaveChanges();
+                _context.SaveChangesAsync();
                 return  "Successfully changed status";
-            
+    }
+
+    public async Task<IActionResult> SendConfirmEmail(string email, string token)
+    {
+        var mail = email;
+        var subject = "Подтверждение регистрации";
+        var message = $"Вы успешно зарегистрировались на сайте. Пожалуйста," +
+                      $" подтвердите свою регистрацию, перейдя по " +
+                      $"ссылке: https://твой-домен/api/auth/confirm?token={token}";
+        
+        await _emailSender.SendEmailAsync(mail, subject, message);
+        return new OkResult();
     }
 }

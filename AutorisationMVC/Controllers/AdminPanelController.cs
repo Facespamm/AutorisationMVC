@@ -1,4 +1,5 @@
 ﻿using Autorisation.Context;
+using AutorisationMVC;
 using AutorisationMVC.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +10,12 @@ namespace Autorisation.Controllers
     public class AdminPanelController : Controller
     {
         private AppDbContext _context;
+        private  IEmailSender _emailSender;
 
-        public AdminPanelController(AppDbContext context)
+        public AdminPanelController(AppDbContext context,IEmailSender emailSender)
         {
             _context=context;
+            _emailSender=emailSender;
         }
 
         [HttpGet("api/adminpanel/getusers")]
@@ -47,7 +50,7 @@ namespace Autorisation.Controllers
         [HttpPut("api/autorisation/updateStatus/")]
         public async Task<IActionResult> UpdateStatus(List<int> ids, [FromBody] string status)
         {
-            AutorisationUsers autorisationUsers = new AutorisationUsers(_context);
+            AutorisationUsers autorisationUsers = new AutorisationUsers(_context,_emailSender);
 
             var result = autorisationUsers.ChangeStatus(status, ids);
             return Ok(result);

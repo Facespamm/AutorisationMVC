@@ -1,7 +1,11 @@
 using Autorisation.Context;
+using AutorisationMVC;
+using AutorisationMVC.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
