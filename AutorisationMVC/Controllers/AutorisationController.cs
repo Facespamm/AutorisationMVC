@@ -6,7 +6,7 @@ using AutorisationMVC.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Autorisation.Controllers
+namespace AutorisationMVC.Controllers
 {
     public class AutorisationController : Controller
     {

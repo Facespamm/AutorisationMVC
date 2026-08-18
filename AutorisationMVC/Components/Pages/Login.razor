@@ -1,0 +1,38 @@
+@page "/login"
+@using AutorisationMVC.Services
+@inject AutorisationUsers AutorisationUsers
+@inject NavigationManager Navigation
+<h1>The App</h1>
+
+<input @bind="email" placeholder="Email"/>
+<input @bind = "password" placeholder="Password"/>
+<button @onclick="HandleClick">Sign in</button>
+@if (!string.IsNullOrEmpty(message))
+{
+    <p>@message</p>
+}
+
+@code{
+    private string password;
+    private string email;
+    private string message;
+
+    public async Task HandleClick()
+    {
+        var result = AutorisationUsers.Login(email, password);
+
+        if (result == "Successfully logged in")
+        {
+                Navigation.NavigateTo("/users");
+        }
+        else
+        {
+            message = result;
+           
+        }
+       
+    }
+
+    
+
+}

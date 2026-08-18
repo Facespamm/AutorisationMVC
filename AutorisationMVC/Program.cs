@@ -1,11 +1,16 @@
 using Autorisation.Context;
 using AutorisationMVC;
+using AutorisationMVC.Components;
 using AutorisationMVC.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddTransient<IEmailSender, EmailSender>(); 
+builder.Services.AddScoped<AutorisationUsers>();
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -28,13 +33,16 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
-
+app.UseAntiforgery();
 app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
 
 
 app.Run();

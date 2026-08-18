@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Autorisation.Controllers
+namespace AutorisationMVC.Controllers
 {
     public class AdminPanelController : Controller
     {
