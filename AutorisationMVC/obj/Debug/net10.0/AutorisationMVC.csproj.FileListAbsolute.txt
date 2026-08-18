@@ -174,8 +174,6 @@ C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\ne
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\0a2g2wjmzp-{0}-9vr69e8ynj-9vr69e8ynj.gz
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\4babrudf6l-{0}-87fc7y1x7t-87fc7y1x7t.gz
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\7auueyzoja-{0}-mlv21k5csn-mlv21k5csn.gz
-C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\cp6thgrs90-{0}-0ioqg0mia1-0ioqg0mia1.gz
-C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\i53iwlbvpf-{0}-0ioqg0mia1-0ioqg0mia1.gz
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\staticwebassets.build.json
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\staticwebassets.build.json.cache
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\staticwebassets.development.json
@@ -189,3 +187,6 @@ C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\ne
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\ref\AutorisationMVC.dll
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\EmbeddedAttribute.cs
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\ValidatableTypeAttribute.cs
+C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\scopedcss\Components\Pages\Login.razor.rz.scp.css
+C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\cp6thgrs90-{0}-u8kqq4vufe-u8kqq4vufe.gz
+C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\i53iwlbvpf-{0}-u8kqq4vufe-u8kqq4vufe.gz

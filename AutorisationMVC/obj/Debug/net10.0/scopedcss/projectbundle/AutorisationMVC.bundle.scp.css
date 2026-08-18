@@ -1,3 +1,20 @@
+/* /Components/Pages/Login.razor.rz.scp.css */
+.login-page[b-914vqkjc0u] {
+    display: flex;
+}
+
+.login-form[b-914vqkjc0u] {
+    width: 50%;
+}
+
+.login-img[b-914vqkjc0u] {
+    width: 50%;
+    min-height: 100vh;
+
+    background-image: url("./Images/images.jpg");
+    background-size: cover;
+    background-position: center;
+}
 /* /Views/Shared/_Layout.cshtml.rz.scp.css */
 /* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */

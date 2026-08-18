@@ -1,12 +1,35 @@
 @page "/login"
 @using AutorisationMVC.Services
 @inject AutorisationUsers AutorisationUsers
-@inject NavigationManager Navigation
-<h1>The App</h1>
+@inject NavigationManager Navigation    
+<h3>The App</h3>
+<div class="login-page">
+    <div class="login-form">
+        <form >
+            <div class="border border-dark p-4 rounded" style="width:300px;">
+                <h7>Start your journey</h7>
+                <h4>Sign in to The App</h4>
+                <label for="exampleInputEmail1">Email</label>
+                <input @bind="email" class="form-control mb-3 " id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
 
-<input @bind="email" placeholder="Email"/>
-<input @bind = "password" placeholder="Password"/>
-<button @onclick="HandleClick">Sign in</button>
+                <small id="emailHelp" class="form-text text-muted"></small>
+
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input @bind="password" class="form-control mb-3" id="exampleInputPassword1" placeholder="Password">
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label mb-3" for="exampleCheck1">Check me out</label>
+                </div>
+                <button @onclick="HandleClick" class="btn btn-primary">Sign in</button>
+            </div>
+        </form>
+    </div>
+    <p>Don't have an account</p>
+    <a href="/registration">Sign up</a> 
+    <div class="login-img"></div>
+</div>
 @if (!string.IsNullOrEmpty(message))
 {
     <p>@message</p>

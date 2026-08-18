@@ -24,4 +24,8 @@
     <Folder Include="Views\Registration\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Images\images.jpg" />
+  </ItemGroup>
+
 </Project>

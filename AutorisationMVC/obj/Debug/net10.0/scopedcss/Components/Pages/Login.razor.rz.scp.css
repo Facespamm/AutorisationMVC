@@ -1,0 +1,16 @@
+.login-page[b-914vqkjc0u] {
+    display: flex;
+}
+
+.login-form[b-914vqkjc0u] {
+    width: 50%;
+}
+
+.login-img[b-914vqkjc0u] {
+    width: 50%;
+    min-height: 100vh;
+
+    background-image: url("./Images/images.jpg");
+    background-size: cover;
+    background-position: center;
+}

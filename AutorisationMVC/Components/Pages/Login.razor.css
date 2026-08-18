@@ -1,0 +1,16 @@
+.login-page {
+    display: flex;
+}
+
+.login-form {
+    width: 50%;
+}
+
+.login-img {
+    width: 50%;
+    min-height: 100vh;
+
+    background-image: url("./Images/images.jpg");
+    background-size: cover;
+    background-position: center;
+}
