@@ -23,7 +23,7 @@
 .login-img {
     width: 50%;
     min-height: 100vh;
-    background-image: url("./Images/images.png");
+    background-image: url("/Images/images.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

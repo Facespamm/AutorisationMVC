@@ -15,22 +15,23 @@
                 <h4>Please register your account</h4>
                 <label for="exampleInputFullName">Full name</label>
                 <input @bind="name" class="form-control mb-3" id ="exampleInputFullName"
-                       aria-describedby="nameHelp" placeholder="Please Enter your full name">
+                       aria-describedby="nameHelp" placeholder="Please Enter your full name" required>
                 <label for="exampleInputEmail1">Email</label>
                 <input @bind ="email" class="form-control mb-3" id ="exampleInputEmail1" 
-                       aria-describedby="emailHelp" placeholder="Please EnterEmail">
+                       aria-describedby="emailHelp" placeholder="Please EnterEmail" required>
                 <label for="ExampleInputPassword">Password</label>
                 <input @bind="password" class="form-control mb-3" id="ExampleInputPassword"
-                       aria-describedby="passwordHelp" placeholder="Please Enter password">
+                       aria-describedby="passwordHelp" placeholder="Please Enter password" required>
                 <label for="ExampleInputCheckPassword">Check password</label>
-                <input type="text"  class="form-control mb-3" id="ExampleInputCheckPassword"
-                       aria-describedby="passwordCheckHelp" placeholder="Please Enter your password for check">
+                <input @bind="checkPassword"  class="form-control mb-3" id="ExampleInputCheckPassword"
+                       aria-describedby="passwordCheckHelp" placeholder="Please Enter your password for check" required>
                 
                 <button @onclick="HandleClick" class="btn btn-primary w-100 align-content-center">Register</button>
             </div>
+            <p>Do you have a account? <a href="/login" class="ms-2">Sign in</a></p>
         </form>
     </div>
-    
+    <div class="register-img"></div>
 </div>
 @if (!string.IsNullOrEmpty(registerMail))
 {
@@ -42,9 +43,15 @@
     private string password;
     private string name;
     private string registerMail;
+    private string checkPassword;
 
     private async Task HandleClick()
     {
+        if (password != checkPassword)
+        {
+             registerMail ="Passwords do not match";
+             return;
+        }
         registerMail = await AutorisationUsers.Register(email, password, name);
     }
 }
