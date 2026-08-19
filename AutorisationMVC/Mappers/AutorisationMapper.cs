@@ -15,6 +15,7 @@ public static class AutorisationMapper
             password = requestDto.password,
             Email = requestDto.Email,
             Status = requestDto.Status,
+            ConfirmationToken =  requestDto.ConfirmationToken   
         };
     }
 }

@@ -1,0 +1,40 @@
+@page "/register"
+@using AutorisationMVC.Services
+@using AutorisationMVC.Mappers
+@using Dto
+@inject AutorisationUsers AutorisationUsers
+@inject NavigationManager Navigation
+@layout AutorisationMVC.Components.Layout.EmptyLayout   
+
+<div class="register-page">
+    <div class="register-form">
+        <form>
+            <h3 class="brand-title">The App</h3>
+            <div class="border border-dark p-4 rounded" style="width:300px;">
+                <h7>Register form</h7>
+                <h4>Please register your account</h4>
+                <label for="exampleInputEmail1">Email</label>
+                <input @bind ="email" class="form-control mb-3" id ="exampleInputEmail1" 
+                       aria-describedby="emailHelp" placeholder="Please EnterEmail">
+            </div>
+        </form>
+    </div>
+    
+</div>
+@if (!string.IsNullOrEmpty(registerMail))
+{
+    <p>@registerMail</p>
+}
+
+@code {
+    private string email;
+    private string password;
+    private string name;
+    private string registerMail;
+
+    private async Task HandleClick()
+    {
+        registerMail = await AutorisationUsers.Register(email, password, name);
+    }
+}
+

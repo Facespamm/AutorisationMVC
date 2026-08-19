@@ -2,10 +2,11 @@
 @using AutorisationMVC.Services
 @inject AutorisationUsers AutorisationUsers
 @inject NavigationManager Navigation    
-<h3>The App</h3>
+@layout AutorisationMVC.Components.Layout.EmptyLayout   
 <div class="login-page">
     <div class="login-form">
         <form >
+            <h3 class="brand-title">The App</h3>
             <div class="border border-dark p-4 rounded" style="width:300px;">
                 <h7>Start your journey</h7>
                 <h4>Sign in to The App</h4>
@@ -20,16 +21,15 @@
                 </div>
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label mb-3" for="exampleCheck1">Check me out</label>
+                    <label class="form-check-label mb-3" for="exampleCheck1">Remember out</label>
                 </div>
-                <button @onclick="HandleClick" class="btn btn-primary">Sign in</button>
+                <button @onclick="HandleClick" class="btn btn-primary w-100 align-content-center">Sign in</button>
             </div>
-        </form>
+            <p>Don't have an account?<a href="/registration" class="ms-2">Sign up</a></p>   
+            </form>
     </div>
-    <p>Don't have an account</p>
-    <a href="/registration">Sign up</a> 
     <div class="login-img"></div>
-</div>
+</div>  
 @if (!string.IsNullOrEmpty(message))
 {
     <p>@message</p>
@@ -40,7 +40,7 @@
     private string email;
     private string message;
 
-    public async Task HandleClick()
+    private void HandleClick()
     {
         var result = AutorisationUsers.Login(email, password);
 

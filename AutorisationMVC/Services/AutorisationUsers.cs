@@ -1,6 +1,8 @@
 using Autorisation.Context;
 using Autorisation.Enum;
 using Autorisation.Migrations;
+using AutorisationMVC.Dto;
+using AutorisationMVC.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,15 +12,54 @@ public class AutorisationUsers
 {
     private AppDbContext _context;
     private readonly IEmailSender _emailSender;
-    
-    public AutorisationUsers(AppDbContext context,IEmailSender emailSender)
+
+    public AutorisationUsers(AppDbContext context, IEmailSender emailSender)
     {
         _context = context;
         _emailSender = emailSender;
 
     }
 
-    public string Login(string email, string password)
+    public async Task<string> Register(string email, string password, string name)
+    {
+        RegistrationDto registerDto = new RegistrationDto();
+
+        registerDto = new()
+        {
+            Email = email,
+            password = password,
+            Name = name,
+            ConfirmationToken =  Guid.NewGuid().ToString(),
+            Status = StatusEnum.Unverified
+            
+        };
+        var newUser = registerDto.ToCreateRegistration();
+        await _context.AddAsync(newUser);
+        await _context.SaveChangesAsync();
+        var send = SendConfirmEmail(newUser.Email, newUser.ConfirmationToken);
+        return "Successfully registered.";
+        
+            
+
+    }
+
+    public async Task<string> ConfirmToken(string token)
+    {
+        var result = _context.Autorisations.FirstOrDefault(x => x.ConfirmationToken == token);
+        if (result == null)
+        {
+            return "Invalid or expired confirmation link.";
+        }
+
+        if (result.Status == StatusEnum.Unverified)
+        {
+            result.Status = StatusEnum.Active;
+            result.ConfirmationToken = null;
+            await _context.SaveChangesAsync();      
+        }
+        return "Email confirmed successfully.";
+    }
+public string Login(string email, string password)
     {
         if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
         {

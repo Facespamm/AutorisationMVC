@@ -1,16 +1,30 @@
 .login-page[b-914vqkjc0u] {
     display: flex;
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+.brand-title[b-914vqkjc0u] {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    margin: 0;
 }
 
 .login-form[b-914vqkjc0u] {
+    position: relative;
     width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .login-img[b-914vqkjc0u] {
     width: 50%;
     min-height: 100vh;
-
-    background-image: url("./Images/images.jpg");
+    background-image: url("./Images/images.png");
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
 }
