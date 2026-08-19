@@ -1,4 +1,4 @@
-@page "/register"
+@page "/registration"
 @using AutorisationMVC.Services
 @using AutorisationMVC.Mappers
 @using Dto
@@ -13,9 +13,20 @@
             <div class="border border-dark p-4 rounded" style="width:300px;">
                 <h7>Register form</h7>
                 <h4>Please register your account</h4>
+                <label for="exampleInputFullName">Full name</label>
+                <input @bind="name" class="form-control mb-3" id ="exampleInputFullName"
+                       aria-describedby="nameHelp" placeholder="Please Enter your full name">
                 <label for="exampleInputEmail1">Email</label>
                 <input @bind ="email" class="form-control mb-3" id ="exampleInputEmail1" 
                        aria-describedby="emailHelp" placeholder="Please EnterEmail">
+                <label for="ExampleInputPassword">Password</label>
+                <input @bind="password" class="form-control mb-3" id="ExampleInputPassword"
+                       aria-describedby="passwordHelp" placeholder="Please Enter password">
+                <label for="ExampleInputCheckPassword">Check password</label>
+                <input type="text"  class="form-control mb-3" id="ExampleInputCheckPassword"
+                       aria-describedby="passwordCheckHelp" placeholder="Please Enter your password for check">
+                
+                <button @onclick="HandleClick" class="btn btn-primary w-100 align-content-center">Register</button>
             </div>
         </form>
     </div>

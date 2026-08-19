@@ -190,5 +190,6 @@ C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\ne
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\scopedcss\Components\Pages\Login.razor.rz.scp.css
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\nmyad8h4a2-{0}-wyu7y4jcvb-wyu7y4jcvb.gz
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\2xxr2prmn0-{0}-wfr2hj6447-wfr2hj6447.gz
-C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\cp6thgrs90-{0}-wdr0f9f5zc-wdr0f9f5zc.gz
-C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\i53iwlbvpf-{0}-wdr0f9f5zc-wdr0f9f5zc.gz
+C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\scopedcss\Components\Pages\Register.Razor.rz.scp.css
+C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\cp6thgrs90-{0}-2y9ce3i764-2y9ce3i764.gz
+C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\i53iwlbvpf-{0}-2y9ce3i764-2y9ce3i764.gz
