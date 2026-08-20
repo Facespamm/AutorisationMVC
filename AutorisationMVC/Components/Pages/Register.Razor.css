@@ -23,8 +23,7 @@
 .register-img{
     width:50%;
     min-height:100vh;
-    background-image: url("./Images/images.png")
-; 
+    background-image: url("./Images/images.png")  ; 
     background-repeat: no-repeat;
     background-size:cover;
     background-position: center;
