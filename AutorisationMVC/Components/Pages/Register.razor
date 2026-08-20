@@ -53,6 +53,11 @@
              return;
         }
         registerMail = await AutorisationUsers.Register(email, password, name);
+    
+        if (registerMail == "Successfully registered.")
+        {
+            Navigation.NavigateTo("/login");
+        }
     }
 }
 

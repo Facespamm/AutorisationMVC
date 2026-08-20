@@ -1,61 +1,43 @@
 @page "/login"
 @using AutorisationMVC.Services
-@inject AutorisationUsers AutorisationUsers
 @inject NavigationManager Navigation    
 @layout AutorisationMVC.Components.Layout.EmptyLayout   
 <div class="login-page">
     <div class="login-form">
-        <form >
+        <form method="post" action="/api/auth/login">
             <h3 class="brand-title">The App</h3>
             <div class="border border-dark p-4 rounded" style="width:300px;">
                 <h7>Start your journey</h7>
                 <h4>Sign in to The App</h4>
                 <label for="exampleInputEmail1">Email</label>
-                <input @bind="email" class="form-control mb-3 " id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
+                <input name="email" class="form-control mb-3 " id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
 
                 <small id="emailHelp" class="form-text text-muted"></small>
 
                 <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
-                    <input @bind="password" class="form-control mb-3" id="exampleInputPassword1" placeholder="Password" required>
+                    <input name="password" class="form-control mb-3" id="exampleInputPassword1" placeholder="Password" required>
                 </div>
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label mb-3" for="exampleCheck1">Remember out</label>
                 </div>
-                <button @onclick="HandleClick" class="btn btn-primary w-100 align-content-center">Sign in</button>
+                <button type="submit" class="btn btn-primary w-100 align-content-center">Sign in</button>
             </div>
+            @if(hasError){                
+                <p class="text-danger mt-3 mb-0">Invalid email or password.</p>
+            }
             <p>Don't have an account?<a href="/registration" class="ms-2">Sign up</a></p>   
             </form>
     </div>
     <div class="login-img"></div>
 </div>  
-@if (!string.IsNullOrEmpty(message))
-{
-    <p>@message</p>
-}
 
 @code{
-    private string password;
-    private string email;
-    private string message;
-
-    private void HandleClick()
+    private bool hasError;
+    protected override void OnInitialized()
     {
-        var result = AutorisationUsers.Login(email, password);
-
-        if (result == "Successfully logged in")
-        {
-                Navigation.NavigateTo("/users");
-        }
-        else
-        {
-            message = result;
-           
-        }
-       
+        var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
+        hasError = uri.Query.Contains("error=1");
     }
-
-    
-
 }

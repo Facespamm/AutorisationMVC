@@ -1,0 +1,34 @@
+@page "/confirm"
+@layout AutorisationMVC.Components.Layout.EmptyLayout
+@using AutorisationMVC.Services
+@inject AutorisationUsers AutorisationUsers
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="text-center">
+        <h3 class="mb-3">Подтверждение почты</h3>
+
+        @if (isLoading)
+        {
+            <p>Проверяем ссылку...</p>
+        }
+        else
+        {
+            <p>@message</p>
+            <a href="/login" class="btn btn-primary mt-3">Перейти к входу</a>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter, SupplyParameterFromQuery]
+    public string token { get; set; }
+
+    private string message;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        message = await AutorisationUsers.ConfirmToken(token);
+        isLoading = false;
+    }
+}

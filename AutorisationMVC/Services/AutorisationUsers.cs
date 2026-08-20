@@ -1,8 +1,9 @@
+using System.Security.Claims;
 using Autorisation.Context;
 using Autorisation.Enum;
-using Autorisation.Migrations;
 using AutorisationMVC.Dto;
 using AutorisationMVC.Mappers;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,6 @@ public class AutorisationUsers
     {
         _context = context;
         _emailSender = emailSender;
-
     }
 
     public async Task<string> Register(string email, string password, string name)
@@ -38,9 +38,6 @@ public class AutorisationUsers
         await _context.SaveChangesAsync();
         var send = SendConfirmEmail(newUser.Email, newUser.ConfirmationToken);
         return "Successfully registered.";
-        
-            
-
     }
 
     public async Task<string> ConfirmToken(string token)
@@ -94,8 +91,42 @@ public string Login(string email, string password)
                 {
                     user.Status = parsedStatus;
                 }
-                _context.SaveChangesAsync();
+               await _context.SaveChangesAsync();
                 return  "Successfully changed status";
+    }
+
+    public async Task<bool> CheckEmail(string email)
+    {
+        if (string.IsNullOrEmpty(email))
+        {
+            return false;
+        }
+        var check = await _context.Autorisations
+            
+            .AnyAsync(x=>x.Email == email);
+       
+        return await _context.Autorisations
+            
+            .AnyAsync(x=>x.Email == email);
+    }
+
+    public async Task<ClaimsPrincipal> LoginWithClaims(string email, string password)
+    {
+        if(string.IsNullOrEmpty(email)|| string.IsNullOrEmpty(password)){return null;}
+        var user = await _context.Autorisations.FirstOrDefaultAsync(x => x.Email == email);
+        if(user == null || user.password!= password||user.Status==StatusEnum.Blocked || user.Status == StatusEnum.Unverified)
+        {return  null;}
+            
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+            new Claim(ClaimTypes.Email,user.Email.ToString()),
+            new Claim(ClaimTypes.Name,user.Name.ToString()),
+        };
+        
+        var claimIdentity = new ClaimsIdentity(claims,CookieAuthenticationDefaults.AuthenticationScheme);
+        return new ClaimsPrincipal(claimIdentity);
+        
     }
 
     public async Task<IActionResult> SendConfirmEmail(string email, string token)
@@ -104,7 +135,7 @@ public string Login(string email, string password)
         var subject = "Подтверждение регистрации";
         var message = $"Вы успешно зарегистрировались на сайте. Пожалуйста," +
                       $" подтвердите свою регистрацию, перейдя по " +
-                      $"ссылке: https://твой-домен/api/auth/confirm?token={token}";
+                      $"ссылке: https://localhost:5149/api/auth/confirm?token={token}";
         
         await _emailSender.SendEmailAsync(mail, subject, message);
         return new OkResult();
