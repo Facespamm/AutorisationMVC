@@ -1,18 +1,18 @@
-.register-page[b-mjhmuf7525]{
+.register-page[b-49x5asoopb]{
     display:flex;
     width:100%;
     min-height:100vh;
     margin:0;
     padding:0;
 }
-.brand-title[b-mjhmuf7525] {
+.brand-title[b-49x5asoopb] {
     position: absolute;
     top: 24px;
     left: 24px;
     margin: 0;
 }
 
-.register-form[b-mjhmuf7525] {
+.register-form[b-49x5asoopb] {
     display: flex;
     position: relative;
     width: 50%;
@@ -20,10 +20,10 @@
     justify-content: center;
 }
 
-.register-img[b-mjhmuf7525]{
+.register-img[b-49x5asoopb]{
     width:50%;
     min-height:100vh;
-    background-image: url("/Images/images.png");
+    background-image: url("./Images/images.png");
     background-repeat: no-repeat;
     background-size:cover;
     background-position: center;
