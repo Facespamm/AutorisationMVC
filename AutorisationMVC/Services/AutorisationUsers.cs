@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Autorisation.Context;
 using Autorisation.Enum;
+using Autorisation.Models;
 using AutorisationMVC.Dto;
 using AutorisationMVC.Mappers;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -20,6 +21,13 @@ public class AutorisationUsers
         _emailSender = emailSender;
     }
 
+    public async Task<List<Autorisations>> GetUsers()
+    {
+        var users = await _context.Autorisations
+            .ToListAsync();
+        return users;
+    }
+    
     public async Task<string> Register(string email, string password, string name)
     {
         RegistrationDto registerDto = new RegistrationDto();
@@ -56,7 +64,7 @@ public class AutorisationUsers
         }
         return "Email confirmed successfully.";
     }
-public string Login(string email, string password)
+        public string Login(string email, string password)
     {
         if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
         {
@@ -83,10 +91,7 @@ public string Login(string email, string password)
             return "Invalid status value.";
         }
         var users = await _context.Autorisations.Where(x => ids.Contains(x.Id)).ToListAsync();
-                if (users.Count == 0)
-                {
-                    return "No users found.";
-                }
+                if (users.Count == 0) { return "No users found."; }
                 foreach (var user in users)
                 {
                     user.Status = parsedStatus;

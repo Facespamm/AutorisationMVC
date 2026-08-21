@@ -19,7 +19,7 @@ namespace AutorisationMVC.Controllers
         }
 
         [HttpGet("api/adminpanel/getusers")]
-        public async Task<IActionResult> GetUserInformations()
+        public async Task<IActionResult> GetUsers()
         {
             var users = await _context.Autorisations
                 .Select(x=>new
