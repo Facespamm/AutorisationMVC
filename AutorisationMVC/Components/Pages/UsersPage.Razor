@@ -1,13 +1,19 @@
 @page "/users" 
 <div class="userPage">
     <div class="user-table">
+        <div user-table-button>
+          <button type="submit" class="ms-2 mb-3">Change status</button>
+            <button type="submit" class="ms-2 mb-3">Delete users</button>
+            <button type="submit" class="ms-2 mb-3">Delete unverified</button>
+        </div>
         <table class="table">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Имя</th>
-                <th scope="col">Фамилия</th>
-                <th scope="col">Username</th>
+                <th scope="col">id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Status</th>
+                <th scope="col">Last login</th>
             </tr>
             </thead>
             <tbody>

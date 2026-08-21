@@ -51,10 +51,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb25maXJtRW1haWwuUmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Alexander/Documents/GitHub/AutorisationMVC/AutorisationMVC/Components/Pages/UsersPage.Razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xVc2Vyc1BhZ2UuUmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/Alexander/Documents/GitHub/AutorisationMVC/AutorisationMVC/Components/Routes.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
@@ -70,6 +66,10 @@ build_metadata.AdditionalFiles.CssScope = b-914vqkjc0u
 [C:/Users/Alexander/Documents/GitHub/AutorisationMVC/AutorisationMVC/Components/Pages/Register.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xSZWdpc3Rlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-49x5asoopb
+
+[C:/Users/Alexander/Documents/GitHub/AutorisationMVC/AutorisationMVC/Components/Pages/UsersPage.Razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xVc2Vyc1BhZ2UuUmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-1jwf5guq0w
 
 [C:/Users/Alexander/Documents/GitHub/AutorisationMVC/AutorisationMVC/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=

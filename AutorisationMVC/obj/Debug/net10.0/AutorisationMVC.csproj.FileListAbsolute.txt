@@ -579,5 +579,6 @@ C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\ne
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\AutorisationMVC.pdb
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\AutorisationMVC.genruntimeconfig.cache
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\ref\AutorisationMVC.dll
-C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\cp6thgrs90-{0}-ou7t3f7t2k-ou7t3f7t2k.gz
-C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\i53iwlbvpf-{0}-ou7t3f7t2k-ou7t3f7t2k.gz
+C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\scopedcss\Components\Pages\UsersPage.razor.rz.scp.css
+C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\cp6thgrs90-{0}-83iasirn0i-83iasirn0i.gz
+C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\i53iwlbvpf-{0}-83iasirn0i-83iasirn0i.gz

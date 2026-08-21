@@ -61,6 +61,16 @@
     background-position: center;
 }
 
+/* /Components/Pages/UsersPage.razor.rz.scp.css */
+.user-table thead[b-1jwf5guq0w] {
+    background-color: black !important;
+    color: white !important;
+}
+
+.user-table thead th[b-1jwf5guq0w] {
+    background-color: black !important;
+    color: white !important;
+}   
 /* /Views/Shared/_Layout.cshtml.rz.scp.css */
 /* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */

@@ -110,6 +110,19 @@ public string Login(string email, string password)
             .AnyAsync(x=>x.Email == email);
     }
 
+    public async Task<string> DeleteUnverified()
+    {
+        var del =await _context.Autorisations.Where(x=>x.Status == StatusEnum.Unverified).ToListAsync();
+        if (del.Count == 0)
+        {
+            return "No unverified users found.";
+        }
+        _context.Autorisations.RemoveRange(del);
+        await _context.SaveChangesAsync();
+        
+        return  "Successfully deleted unverified user.";
+    }
+
     public async Task<ClaimsPrincipal> LoginWithClaims(string email, string password)
     {
         if(string.IsNullOrEmpty(email)|| string.IsNullOrEmpty(password)){return null;}
