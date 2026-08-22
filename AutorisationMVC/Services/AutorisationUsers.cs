@@ -67,7 +67,7 @@ public class AutorisationUsers
         }
         return "Email confirmed successfully.";
     }
-        public string Login(string email, string password)
+        public async Task <string> Login(string email, string password)
     {
         if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
         {
@@ -80,6 +80,8 @@ public class AutorisationUsers
         }
         else
         {
+            user.LastLogin = DateTime.UtcNow;
+            _context.SaveChanges();
             return "Successfully logged in.";
         }
     }
@@ -144,7 +146,7 @@ public class AutorisationUsers
         var subject = "Подтверждение регистрации";
         var message = $"Вы успешно зарегистрировались на сайте. Пожалуйста," +
                       $" подтвердите свою регистрацию, перейдя по " +
-                      $"ссылке: https://localhost:5149/confirm?token={token}";
+                      $"ссылке: http://localhost:5149/confirm?token={token}";
         
         await _emailSender.SendEmailAsync(mail, subject, message);
         return new OkResult();

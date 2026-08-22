@@ -22,7 +22,7 @@ namespace Autorisation.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Autorisation.Models.Autorisations", b =>
+            modelBuilder.Entity("AutorisationMVC.Models.Autorisations", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,7 +31,6 @@ namespace Autorisation.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ConfirmationToken")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Email")

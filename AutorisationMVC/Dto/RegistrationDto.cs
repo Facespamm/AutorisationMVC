@@ -10,7 +10,7 @@ public class RegistrationDto
 
     public string Email { get; set; }
     
-    public string ConfirmationToken  { get; set; }
+    public string? ConfirmationToken  { get; set; }
 
     public StatusEnum Status { get; set; }
 }

@@ -8,7 +8,7 @@ public class EmailSender:IEmailSender
     public Task SendEmailAsync(string email, string subject, string message)
     {
         var mail = "aerfceje@gmail.com";
-        var password = "jpcn uesg onft bfml";
+        var password = "cxis hajo mviy yhwa";
         var client = new SmtpClient("smtp.gmail.com", 587)
         {
             EnableSsl = true,

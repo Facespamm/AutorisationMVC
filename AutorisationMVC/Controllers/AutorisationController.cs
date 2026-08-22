@@ -37,7 +37,7 @@ namespace AutorisationMVC.Controllers
         public async Task<IActionResult> Login([FromBody] string password, [FromRoute] string email)
         {
             AutorisationUsers autorisationUsers = new AutorisationUsers(_context,_emailSender);
-            var result = autorisationUsers.Login(email, password);
+            var result = await autorisationUsers.Login(email, password);
             if (result == "Successfully logged in.")
             {
                 return Ok(result);
