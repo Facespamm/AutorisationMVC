@@ -2,6 +2,7 @@ using Autorisation.Enum;
 using Autorisation.Migrations;
 using Autorisation.Models;
 using AutorisationMVC.Dto;
+using AutorisationMVC.Models;
 
 namespace AutorisationMVC.Mappers;
 

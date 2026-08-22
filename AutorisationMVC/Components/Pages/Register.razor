@@ -9,7 +9,7 @@
         <form>
             <h3 class="brand-title">The App</h3>
             <div class="border border-dark p-4 rounded" style="width:300px;">
-                <h7>Register form</h7>
+                <h6>Register form</h6>
                 <h4>Please register your account</h4>
                 <label for="exampleInputFullName">Full name</label>
                 <input @bind="name" class="form-control mb-3" id ="exampleInputFullName"
@@ -24,7 +24,7 @@
                 <input @bind="checkPassword"  class="form-control mb-3" id="ExampleInputCheckPassword"
                        aria-describedby="passwordCheckHelp" placeholder="Please Enter your password for check" required>
                 
-                <button @onclick="HandleClick" class="btn btn-primary w-100 align-content-center">Register</button>
+                <button type="submit" @onclick="HandleClick" class="btn btn-primary w-100 align-content-center">Register</button>
             </div>
             <p>Do you have a account? <a href="/login" class="ms-2">Sign in</a></p>
         </form>

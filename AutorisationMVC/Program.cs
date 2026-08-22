@@ -1,10 +1,16 @@
+using System;
 using Autorisation.Context;
 using AutorisationMVC;
 using AutorisationMVC.Components;
 using AutorisationMVC.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,9 +25,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.ExpireTimeSpan = TimeSpan.FromDays(1);
     options.SlidingExpiration = true;
 });
-    
 
 builder.Services.AddAuthorization();
+builder.Services.AddCascadingAuthenticationState();
 
 
 // Add services to the container.
@@ -50,7 +56,8 @@ app.MapStaticAssets();
  
 app.MapPost("/api/auth/logout", async (HttpContext http) =>
 {
-    http.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+     await http.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+     return Results.Redirect("/login");
 });
 app.MapPost("/api/auth/login", async (HttpContext http, AutorisationUsers user, HttpRequest req) =>
 {

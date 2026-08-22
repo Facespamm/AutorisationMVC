@@ -1,7 +1,6 @@
 ﻿using Autorisation.Enum;
-using Autorisation.Migrations;
 
-namespace Autorisation.Models
+namespace AutorisationMVC.Models
 {
     public class Autorisations
     {
