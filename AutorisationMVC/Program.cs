@@ -73,6 +73,7 @@ app.MapPost("/api/auth/login", async (HttpContext http, AutorisationUsers user, 
     }
     
     await http.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, result);
+    
     return Results.Redirect("/users");
 });
 app.MapControllerRoute(

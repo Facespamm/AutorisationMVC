@@ -6,13 +6,14 @@
 <div class="userPage">
     <div class="user-table">
         <div user-table-button>
-            <button type="submit"  class="btn btn-primary ms-2 mb-3">Change status</button>
-            <button type="submit" class="btn btn-danger ms-2 mb-3">Delete users</button>
-            <button type="submit" class="btn btn-danger ms-2 mb-3">Delete unverified</button>
+            <button type="submit" @onclick="ChangeClick" class="btn btn-primary ms-2 mb-3">Change status</button>
+            <button type="submit" @onclick="DeleteUsersClick" class="btn btn-danger ms-2 mb-3">Delete users</button>
+            <button type="submit" @onclick="DeleteStatusClick"  class="btn btn-danger ms-2 mb-3">Delete unverified</button>
         </div>
         <table class="table">
             <thead class="thead-dark">
             <tr>
+                <th scope="col">Enter</th>
                 <th scope="col">id</th>
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
@@ -24,6 +25,7 @@
             @foreach (var user in users)
             {
                 <tr>
+                    <td> <input type="checkbox" @onchange="e => ToggleSelection(user.Id, e.Value)"/></td>
                     <th scope="row">@user.Id</th>
                     <td>@user.Name</td>
                     <td>@user.Email</td>
@@ -37,10 +39,35 @@
 </div>
 
 @code
-{
+{ 
+    
+    public async Task ChangeClick()
+    {
+        if (selectedIds.Count == 0) return;
+        await AutorisationUsers.ChangeStatus("blocked", selectedIds.ToList());
+        users = await AutorisationUsers.GetUsers();   // обновляем таблицу после изменения
+    }
+    public async Task DeleteUsersClick()
+    {
+        if (selectedIds.Count == 0) return;
+        await AutorisationUsers.DeleteUsers(selectedIds.ToList());
+        selectedIds.Clear();
+        users = await AutorisationUsers.GetUsers();
 
+    }
+    public async Task DeleteStatusClick()
+    {
+        await AutorisationUsers.DeleteUnverified();
+        users = await AutorisationUsers.GetUsers();
+    }
+    private HashSet<int> selectedIds = new();
     private List<Autorisations> users = new();
-
+    private void ToggleSelection(int userId, object? isChecked)
+    {
+        var check = isChecked is bool b && b;
+        if (check) selectedIds.Add(userId);
+        else selectedIds.Remove(userId);
+    }
     protected override async Task OnInitializedAsync()
     {
         users = await AutorisationUsers.GetUsers();
