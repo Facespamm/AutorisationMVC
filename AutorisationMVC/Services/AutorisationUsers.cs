@@ -23,8 +23,7 @@ namespace AutorisationMVC.Services;
         }
         public async Task<List<Autorisations>> GetUsers()
         {
-            var users = await _context.Autorisations
-                .ToListAsync();
+            var users = await _context.Autorisations.OrderByDescending(x=>x.LastLogin).ToListAsync();
             return users;
         }
         public async Task<string> Register(string email, string password, string name)

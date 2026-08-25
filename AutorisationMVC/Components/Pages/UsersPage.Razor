@@ -1,19 +1,28 @@
 @using Autorisation.Models
 @using AutorisationMVC.Models
 @using AutorisationMVC.Services
+@using Npgsql.Internal.Postgres
 @inject AutorisationUsers AutorisationUsers;
 @page "/users" 
 <div class="userPage">
     <div class="user-table">
         <div user-table-button>
-            <button type="submit" @onclick="ChangeClick" class="btn btn-primary ms-2 mb-3">Change status</button>
-            <button type="submit" @onclick="DeleteUsersClick" class="btn btn-danger ms-2 mb-3">Delete users</button>
-            <button type="submit" @onclick="DeleteStatusClick"  class="btn btn-danger ms-2 mb-3">Delete unverified</button>
+            <button type="button" @onclick="BlockClick" disabled="@(selectedIds.Count == 0)" class="btn btn-primary ms-2 mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 0a4 4 0 0 1 4 4v2.05a2.5 2.5 0 0 1 2 2.45v5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5v-5a2.5 2.5 0 0 1 2-2.45V4a4 4 0 0 1 4-4m0 1a3 3 0 0 0-3 3v2h6V4a3 3 0 0 0-3-3"/>
+            </svg></button>
+            <button type="button" @onclick="UnblockClick" disabled="@(selectedIds.Count == 0)" class="btn btn-primary ms-2 mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M12 0a4 4 0 0 1 4 4v2.5h-1V4a3 3 0 1 0-6 0v2h.5A2.5 2.5 0 0 1 12 8.5v5A2.5 2.5 0 0 1 9.5 16h-7A2.5 2.5 0 0 1 0 13.5v-5A2.5 2.5 0 0 1 2.5 6H8V4a4 4 0 0 1 4-4"/>
+            </svg></button>
+            <button type="button" @onclick="DeleteUsersClick" class="btn btn-danger ms-2 mb-3">Delete users</button>
+            <button type="button" @onclick="DeleteStatusClick"  class="btn btn-danger ms-2 mb-3">Delete unverified</button>
+            <input type="text" placeholder="Filter" @bind="filter" class=""/>
         </div>
         <table class="table">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">Enter</th>
+                <th scope="col">
+                    <input type="checkbox" checked="@selectAll" @onchange="e => ToggleSelectAll(e.Value)"/>
+                </th>
                 <th scope="col">id</th>
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
@@ -22,11 +31,20 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var user in users)
+            @foreach (var user in users
+                          .Where(u => string.IsNullOrWhiteSpace(filter) ||
+                                      u.Name.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                      u.Email.Contains(filter, StringComparison.OrdinalIgnoreCase))
+                          .OrderByDescending(u => u.LastLogin))           
             {
                 <tr>
-                    <td> <input type="checkbox" @onchange="e => ToggleSelection(user.Id, e.Value)"/></td>
-                    <th scope="row">@user.Id</th>
+                    <td>
+                        <input type="checkbox"
+                               checked="@selectedIds.Contains(user.Id)"
+                               @onchange="e => ToggleSelection(user.Id, e.Value)" />
+                    </td>
+
+                    <td>@user.Id</td>
                     <td>@user.Name</td>
                     <td>@user.Email</td>
                     <td>@user.Status</td>
@@ -37,15 +55,27 @@
         </table>
     </div>
 </div>
-
 @code
-{ 
-    
-    public async Task ChangeClick()
+{
+    public async Task ToggleSelectAll(object? isChecked)
+    {
+        var check = isChecked is bool b && b;
+        if(check){selectedIds= users.Select(u=>u.Id).ToHashSet();}
+        else
+        {selectedIds.Clear();}
+
+    }
+    public async Task BlockClick()
     {
         if (selectedIds.Count == 0) return;
         await AutorisationUsers.ChangeStatus("blocked", selectedIds.ToList());
-        users = await AutorisationUsers.GetUsers();   // обновляем таблицу после изменения
+        users = await AutorisationUsers.GetUsers();
+    }
+    public async Task UnblockClick()
+    {
+        if (selectedIds.Count == 0) return;
+        await AutorisationUsers.ChangeStatus("active", selectedIds.ToList());
+        users = await AutorisationUsers.GetUsers();
     }
     public async Task DeleteUsersClick()
     {
@@ -62,6 +92,9 @@
     }
     private HashSet<int> selectedIds = new();
     private List<Autorisations> users = new();
+    private string filter = "";
+    private bool selectAll;
+
     private void ToggleSelection(int userId, object? isChecked)
     {
         var check = isChecked is bool b && b;

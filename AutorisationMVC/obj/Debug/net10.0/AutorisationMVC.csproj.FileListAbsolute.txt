@@ -105,8 +105,6 @@ C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\o
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\AutorisationMVC.AssemblyInfo.cs
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\AutorisationMVC.csproj.CoreCompileInputs.cache
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\AutorisationMVC.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\AutorisationMVC.RazorAssemblyInfo.cache
-C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\AutorisationMVC.RazorAssemblyInfo.cs
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\AutorisationMVC.sourcelink.json
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\rjimswa.dswa.cache.json
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
@@ -114,7 +112,6 @@ C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\o
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\scopedcss\Components\Pages\Login.razor.rz.scp.css
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\scopedcss\Components\Pages\Register.Razor.rz.scp.css
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\scopedcss\Components\Pages\UsersPage.razor.rz.scp.css
-C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\scopedcss\bundle\AutorisationMVC.styles.css
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\scopedcss\projectbundle\AutorisationMVC.bundle.scp.css
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\sa9dqel9o8-{0}-61n19gt1b8-61n19gt1b8.gz
@@ -180,8 +177,6 @@ C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\o
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\7auueyzoja-{0}-mlv21k5csn-mlv21k5csn.gz
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\nmyad8h4a2-{0}-wyu7y4jcvb-wyu7y4jcvb.gz
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\2xxr2prmn0-{0}-wfr2hj6447-wfr2hj6447.gz
-C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\cp6thgrs90-{0}-olwmof8a99-olwmof8a99.gz
-C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\i53iwlbvpf-{0}-olwmof8a99-olwmof8a99.gz
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\staticwebassets.build.json
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\staticwebassets.build.json.cache
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\staticwebassets.development.json
@@ -194,3 +189,5 @@ C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\o
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\AutorisationMVC.genruntimeconfig.cache
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\ref\AutorisationMVC.dll
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\6t2bj095sl-{0}-b9sayid5wm-b9sayid5wm.gz
+C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\cp6thgrs90-{0}-jeaznshss9-jeaznshss9.gz
+C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\i53iwlbvpf-{0}-jeaznshss9-jeaznshss9.gz
