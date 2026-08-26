@@ -12,13 +12,16 @@ public class RegisterServices : IEmailSender
 {
     private readonly AppDbContext _context;
     private readonly IResend _resend;
+    private readonly IConfiguration _configuration;
 
     public RegisterServices(
         AppDbContext context,
-        IResend resend)
+        IResend resend,
+        IConfiguration configuration)
     {
         _context = context;
         _resend = resend;
+        _configuration = configuration;
     }
 
     public async Task SendEmailAsync(
@@ -42,11 +45,13 @@ public class RegisterServices : IEmailSender
     {
         var subject = "Подтверждение регистрации";
 
+        var appUrl = _configuration["AppUrl"] ?? "http://localhost:5149";
+
         var message =
             "Вы успешно зарегистрировались на сайте.\n\n" +
             "Пожалуйста, подтвердите свою регистрацию, " +
             "перейдя по ссылке:\n\n" +
-            $"http://localhost:5149/confirm?token={token}";
+            $"{appUrl}/confirm?token={token}";
 
         await SendEmailAsync(
             email,

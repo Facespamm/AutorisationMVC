@@ -9,17 +9,22 @@ using AutorisationMVC.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration.Json;
+
+// --- Фикс: отключаем FileSystemWatcher для конфигурации ---
+// ВАЖНО: это должно стоять ДО WebApplication.CreateBuilder(args),
+// потому что CreateBuilder сам, внутри себя, уже добавляет
+// appsettings.json с reloadOnChange=true и создаёт FileSystemWatcher
+// (использует inotify-инстанс в Linux). На Render лимит таких
+// инстансов ограничен (обычно 128), из-за чего процесс падает ещё
+// до того, как мы получаем объект builder и можем его настроить.
+// Единственный надёжный способ — задать переменную окружения
+// DOTNET_hostBuilder__reloadConfigOnChange=false ДО вызова CreateBuilder.
+Environment.SetEnvironmentVariable(
+    "DOTNET_hostBuilder__reloadConfigOnChange", "false");
+// -----------------------------------------------------------
 
 var builder = WebApplication.CreateBuilder(args);
 
-foreach (var source in builder.Configuration.Sources)
-{
-    if (source is JsonConfigurationSource jsonSource)
-    {
-        jsonSource.ReloadOnChange = false;
-    }
-}
 builder.Services.AddOptions();
 
 builder.Services.AddHttpClient<ResendClient>();
