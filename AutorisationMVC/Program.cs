@@ -9,9 +9,15 @@ using AutorisationMVC.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args
+});
 
-var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddOptions();
+builder.Configuration.Sources
+    .OfType<Microsoft.Extensions.Configuration.Json.JsonConfigurationSource>()
+    .ToList()
+    .ForEach(x => x.ReloadOnChange = false);builder.Services.AddOptions();
 builder.Services.AddHttpClient<ResendClient>();
 builder.Services.AddTransient<IResend>(sp =>
 {
