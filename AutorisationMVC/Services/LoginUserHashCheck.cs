@@ -5,7 +5,6 @@
     namespace AutorisationMVC.Services;
 
     public sealed class LoginUserHashCheck(
-        IUserRepository userRepository,
         IPasswordHasher passwordHasher,
         AppDbContext appDbContext)
     {

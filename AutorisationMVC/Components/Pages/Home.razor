@@ -1,0 +1,26 @@
+@page "/"
+@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager Navigation
+@layout AutorisationMVC.Components.Layout.EmptyLayout
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState>? AuthenticationStateTask { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // important: "/" has no content of its own — it only decides where to send
+        // the visitor. Logged-in users go straight to the table, everyone else to login.
+        bool isAuthenticated = false;
+
+        if (AuthenticationStateTask != null)
+        {
+            var authState = await AuthenticationStateTask;
+            isAuthenticated = authState.User.Identity?.IsAuthenticated ?? false;
+        }
+
+        // nota bene: NavigateTo with forceLoad:false keeps this inside the Blazor
+        // circuit, matching how the rest of the app navigates between pages.
+        Navigation.NavigateTo(isAuthenticated ? "/users" : "/login", forceLoad: false);
+    }
+}

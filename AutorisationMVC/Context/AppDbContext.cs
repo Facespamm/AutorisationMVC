@@ -1,5 +1,4 @@
-﻿using Autorisation.Models;
-using AutorisationMVC.Models;
+﻿using AutorisationMVC.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Autorisation.Context

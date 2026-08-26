@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using Autorisation.Context;
 using Autorisation.Enum;
-using Autorisation.Models;
 using AutorisationMVC.Dto;
 using AutorisationMVC.Mappers;
 using AutorisationMVC.Models;

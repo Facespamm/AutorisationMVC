@@ -5,12 +5,7 @@ using AutorisationMVC.Components;
 using AutorisationMVC.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,8 +26,6 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<LoginUserHashCheck>();
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(option =>
 {
     option.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -40,14 +33,11 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseExceptionHandler("/login");
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
@@ -73,7 +63,15 @@ app.MapPost("/api/auth/login",
 
         var request = new LoginUserHashCheck.Request(email, password);
 
-        var result = await check.Handle(request);
+        System.Security.Claims.ClaimsPrincipal result;
+        try
+        {
+            result = await check.Handle(request);
+        }
+        catch (Exception)
+        {
+            return Results.Redirect("/login?error=1");
+        }
 
         await http.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
@@ -81,13 +79,8 @@ app.MapPost("/api/auth/login",
 
         return Results.Redirect("/users");
     });
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
-
 
 app.Run();
