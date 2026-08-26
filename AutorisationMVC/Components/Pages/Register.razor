@@ -3,60 +3,119 @@
 @inject UserServices UserServices
 @inject NavigationManager Navigation
 @inject RegisterServices RegisterServices
-@layout AutorisationMVC.Components.Layout.EmptyLayout   
+@layout AutorisationMVC.Components.Layout.EmptyLayout
 
 <div class="register-page">
     <div class="register-form">
         <form>
             <h3 class="brand-title">The App</h3>
+
             <div class="border border-dark p-4 rounded" style="width:300px;">
+
                 <h6>Register form</h6>
                 <h4>Please register your account</h4>
+
+                @if (registrationSuccess)
+                {
+                    <div class="alert alert-success" role="alert">
+                        <strong>You have successfully registered!
+                        </strong>
+                        <br />
+                        Go to your email address to verify your account.
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(registerMail) && !registrationSuccess)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @registerMail
+                    </div>
+                }
+
                 <label for="exampleInputFullName">Full name</label>
-                <input @bind="name" class="form-control mb-3" id ="exampleInputFullName"
-                       aria-describedby="nameHelp" placeholder="Please Enter your full name" required>
+
+                <input @bind="name"
+                       class="form-control mb-3"
+                       id="exampleInputFullName"
+                       aria-describedby="nameHelp"
+                       placeholder="Please Enter your full name"
+                       required>
+
                 <label for="exampleInputEmail1">Email</label>
-                <input @bind ="email" class="form-control mb-3" id ="exampleInputEmail1" 
-                       aria-describedby="emailHelp" placeholder="Please EnterEmail" required>
+
+                <input @bind="email"
+                       class="form-control mb-3"
+                       id="exampleInputEmail1"
+                       aria-describedby="emailHelp"
+                       placeholder="Please EnterEmail"
+                       required>
+
                 <label for="ExampleInputPassword">Password</label>
-                <input @bind="password" class="form-control mb-3" id="ExampleInputPassword"
-                       aria-describedby="passwordHelp" placeholder="Please Enter password" required>
+
+                <input @bind="password"
+                       class="form-control mb-3"
+                       id="ExampleInputPassword"
+                       aria-describedby="passwordHelp"
+                       placeholder="Please Enter password"
+                       required>
+
                 <label for="ExampleInputCheckPassword">Check password</label>
-                <input @bind="checkPassword"  class="form-control mb-3" id="ExampleInputCheckPassword"
-                       aria-describedby="passwordCheckHelp" placeholder="Please Enter your password for check" required>
-                
-                <button type="button" @onclick="HandleClick" class="btn btn-primary w-100 align-content-center">Register</button>
+
+                <input @bind="checkPassword"
+                       class="form-control mb-3"
+                       id="ExampleInputCheckPassword"
+                       aria-describedby="passwordCheckHelp"
+                       placeholder="Please Enter your password for check"
+                       required>
+
+                <button type="button"
+                        @onclick="HandleClick"
+                        class="btn btn-primary w-100 align-content-center"
+                        disabled="@registrationSuccess">
+                    Register
+                </button>
+
             </div>
-            <p>Do you have a account? <a href="/login" class="ms-2">Sign in</a></p>
+
+            <p>
+                Do you have a account?
+                <a href="/login" class="ms-2">Sign in</a>
+            </p>
+
         </form>
     </div>
+
     <div class="register-img"></div>
 </div>
-@if (!string.IsNullOrEmpty(registerMail))
-{
-    <p>@registerMail</p>
-}
 
 @code {
+
     private string email;
     private string password;
     private string name;
     private string registerMail;
     private string checkPassword;
 
+    private bool registrationSuccess = false;
+
     private async Task HandleClick()
     {
         if (password != checkPassword)
         {
-             registerMail ="Passwords do not match";
-             return;
+            registerMail = "Passwords do not match";
+            registrationSuccess = false;
+            return;
         }
-        registerMail = await RegisterServices.Register(email, password, name);
-    
+
+        registerMail = await RegisterServices.Register(
+            email,
+            password,
+            name);
+
         if (registerMail == "Successfully registered.")
         {
-            Navigation.NavigateTo("/login");
+            registrationSuccess = true;
+            registerMail = "";
         }
     }
 }
-

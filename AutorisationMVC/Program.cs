@@ -1,5 +1,6 @@
 using System;
 using System.Security.Claims;
+using Resend;
 using Autorisation.Context;
 using Autorisation.Enum;
 using AutorisationMVC;
@@ -10,13 +11,22 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddOptions();
+builder.Services.AddHttpClient<ResendClient>();
+builder.Services.AddTransient<IResend>(sp =>
+{
+    var apiKey =
+        Environment.GetEnvironmentVariable("RESEND_API_KEY");
 
-builder.Services.AddTransient<IEmailSender, RegisterServices>();
+    return ResendClient.Create(apiKey);
+});
 builder.Services.AddScoped<UserServices>();
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-
+builder.Services.AddScoped<RegisterServices>();
+builder.Services.AddScoped<IEmailSender>(sp =>
+    sp.GetRequiredService<RegisterServices>());
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -39,13 +49,11 @@ builder.Services
             var db = context.HttpContext.RequestServices
                 .GetRequiredService<AppDbContext>();
 
-            var status = await db.Autorisations
+            var user = await db.Autorisations
                 .AsNoTracking()
-                .Where(x => x.Id == userId)
-                .Select(x => x.Status)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(x => x.Id == userId);
 
-            if (status == StatusEnum.Blocked)
+            if (user == null || user.Status == StatusEnum.Blocked)
             {
                 context.RejectPrincipal();
 

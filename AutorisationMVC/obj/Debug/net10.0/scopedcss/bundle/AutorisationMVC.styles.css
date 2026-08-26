@@ -70,4 +70,12 @@
 .user-table thead th[b-1jwf5guq0w] {
     background-color: black !important;
     color: white !important;
-}   
+}
+
+.user-table-button .filter-input[b-1jwf5guq0w] {
+    max-width: 260px;
+}
+
+.user-table-button button[b-1jwf5guq0w] {
+    min-width: 42px;
+}

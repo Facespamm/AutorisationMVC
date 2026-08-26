@@ -1,50 +1,75 @@
-using System.Net;
-using System.Net.Mail;
 using Autorisation.Context;
 using Autorisation.Enum;
 using AutorisationMVC.Dto;
 using AutorisationMVC.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Resend;
 
 namespace AutorisationMVC.Services;
 
-public class RegisterServices:IEmailSender
+public class RegisterServices : IEmailSender
 {
-    private AppDbContext _context;
-    public RegisterServices(AppDbContext context)
+    private readonly AppDbContext _context;
+    private readonly IResend _resend;
+
+    public RegisterServices(
+        AppDbContext context,
+        IResend resend)
     {
         _context = context;
+        _resend = resend;
     }
-    public Task SendEmailAsync(string email, string subject, string message)
+
+    public async Task SendEmailAsync(
+        string email,
+        string subject,
+        string message)
     {
-        var mail = "aerfceje@gmail.com";
-        var password = "cxis hajo mviy yhwa";
-        var client = new SmtpClient("smtp.gmail.com", 587)
-        {
-            EnableSsl = true,
-            Credentials = new NetworkCredential(mail, password),
-        };
-        return client.SendMailAsync(new MailMessage(from:mail,to:email,subject,message));
+        await _resend.EmailSendAsync(
+            new EmailMessage
+            {
+                From = "onboarding@resend.dev",
+                To = email.Trim(),
+                Subject = subject,
+                TextBody = message
+            });
     }
-    public async Task<IActionResult> SendConfirmEmail(string email, string token)
+
+    public async Task<IActionResult> SendConfirmEmail(
+        string email,
+        string token)
     {
-        var mail = email;
         var subject = "Подтверждение регистрации";
-        var message = $"Вы успешно зарегистрировались на сайте. Пожалуйста," +
-                      $" подтвердите свою регистрацию, перейдя по " +
-                      $"ссылке: http://localhost:5149/confirm?token={token}";
-        await SendEmailAsync(mail, subject, message);
+
+        var message =
+            "Вы успешно зарегистрировались на сайте.\n\n" +
+            "Пожалуйста, подтвердите свою регистрацию, " +
+            "перейдя по ссылке:\n\n" +
+            $"http://localhost:5149/confirm?token={token}";
+
+        await SendEmailAsync(
+            email,
+            subject,
+            message);
+
         return new OkResult();
     }
-    public async Task<string> Register(string email, string password, string name)
+
+    public async Task<string> Register(
+        string email,
+        string password,
+        string name)
     {
         var emailExists = await CheckEmail(email);
+
         if (emailExists)
         {
             return "Email is busy";
         }
-        PasswordHasher hasher = new PasswordHasher();
+
+        var hasher = new PasswordHasher();
+
         var registerDto = new RegistrationDto
         {
             Email = email,
@@ -53,16 +78,25 @@ public class RegisterServices:IEmailSender
             ConfirmationToken = Guid.NewGuid().ToString(),
             Status = StatusEnum.Unverified
         };
+
         var newUser = registerDto.ToCreateRegistration();
+
         await _context.AddAsync(newUser);
         await _context.SaveChangesAsync();
 
-        await SendConfirmEmail(newUser.Email, newUser.ConfirmationToken);
+        await SendConfirmEmail(
+            newUser.Email,
+            newUser.ConfirmationToken);
+
         return "Successfully registered.";
     }
+
     public async Task<string> ConfirmToken(string token)
     {
-        var result = _context.Autorisations.FirstOrDefault(x => x.ConfirmationToken == token);
+        var result = await _context.Autorisations
+            .FirstOrDefaultAsync(
+                x => x.ConfirmationToken == token);
+
         if (result == null)
         {
             return "Invalid or expired confirmation link.";
@@ -72,18 +106,21 @@ public class RegisterServices:IEmailSender
         {
             result.Status = StatusEnum.Active;
             result.ConfirmationToken = null;
+
             await _context.SaveChangesAsync();
         }
+
         return "Email confirmed successfully.";
     }
+
     public async Task<bool> CheckEmail(string email)
     {
-        if (string.IsNullOrEmpty(email))
+        if (string.IsNullOrWhiteSpace(email))
         {
             return false;
         }
-        return await _context.Autorisations.AnyAsync(x => x.Email == email);
+
+        return await _context.Autorisations
+            .AnyAsync(x => x.Email == email);
     }
-
-
 }

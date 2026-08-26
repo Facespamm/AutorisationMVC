@@ -525,6 +525,19 @@
           }
         }
       },
+      "Resend/0.13.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/Resend.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Resend.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "System.CodeDom/6.0.0": {
         "type": "package",
         "compile": {
@@ -2060,6 +2073,21 @@
         "postgresql.png"
       ]
     },
+    "Resend/0.13.0": {
+      "sha512": "mnua46/mxnhfvYlkd6yEkhJTG9fJXNX59si/GYXcDfwkiHIxaIrFP0QjEZeE/1wxeQaz9ewrKtSYS3hl2ygJmA==",
+      "type": "package",
+      "path": "resend/0.13.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "icon.png",
+        "lib/net8.0/Resend.dll",
+        "lib/net8.0/Resend.xml",
+        "resend.0.13.0.nupkg.sha512",
+        "resend.nuspec"
+      ]
+    },
     "System.CodeDom/6.0.0": {
       "sha512": "CPc6tWO1LAer3IzfZufDBRL+UZQcj5uS207NHALQzP84Vp/z6wF0Aa0YZImOQY8iStY0A2zI/e3ihKNPfUm8XA==",
       "type": "package",
@@ -2253,28 +2281,36 @@
       "Microsoft.EntityFrameworkCore >= 10.0.11",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.11",
       "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.24.1-preview.1",
-      "Npgsql.EntityFrameworkCore.PostgreSQL >= 10.0.3"
+      "Npgsql.EntityFrameworkCore.PostgreSQL >= 10.0.3",
+      "Resend >= 0.13.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Alexander\\.nuget\\packages\\": {}
+    "C:\\Users\\PC\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Alexander\\Documents\\GitHub\\AutorisationMVC\\AutorisationMVC\\AutorisationMVC.csproj",
+      "projectUniqueName": "C:\\Users\\PC\\OneDrive\\Документы\\GitHub\\AutorisationMVC\\AutorisationMVC\\AutorisationMVC.csproj",
       "projectName": "AutorisationMVC",
-      "projectPath": "C:\\Users\\Alexander\\Documents\\GitHub\\AutorisationMVC\\AutorisationMVC\\AutorisationMVC.csproj",
-      "packagesPath": "C:\\Users\\Alexander\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Alexander\\Documents\\GitHub\\AutorisationMVC\\AutorisationMVC\\obj\\",
+      "projectPath": "C:\\Users\\PC\\OneDrive\\Документы\\GitHub\\AutorisationMVC\\AutorisationMVC\\AutorisationMVC.csproj",
+      "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\PC\\OneDrive\\Документы\\GitHub\\AutorisationMVC\\AutorisationMVC\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Alexander\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -2324,6 +2360,10 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",
             "version": "[10.0.3, )"
+          },
+          "Resend": {
+            "target": "Package",
+            "version": "[0.13.0, )"
           }
         },
         "imports": [
@@ -2345,7 +2385,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Users\\Alexander\\.dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

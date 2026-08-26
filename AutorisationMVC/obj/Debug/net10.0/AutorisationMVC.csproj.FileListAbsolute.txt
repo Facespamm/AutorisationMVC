@@ -189,8 +189,6 @@ C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\o
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\AutorisationMVC.genruntimeconfig.cache
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\ref\AutorisationMVC.dll
 C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\6t2bj095sl-{0}-b9sayid5wm-b9sayid5wm.gz
-C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\cp6thgrs90-{0}-jeaznshss9-jeaznshss9.gz
-C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\i53iwlbvpf-{0}-jeaznshss9-jeaznshss9.gz
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\bin\Debug\net10.0\appsettings.Development.json
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\bin\Debug\net10.0\appsettings.json
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\bin\Debug\net10.0\AutorisationMVC.staticwebassets.runtime.json
@@ -384,3 +382,6 @@ C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\ne
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\AutorisationMVC.pdb
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\AutorisationMVC.genruntimeconfig.cache
 C:\Users\Alexander\Documents\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\ref\AutorisationMVC.dll
+C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\cp6thgrs90-{0}-6d66uxqgf8-6d66uxqgf8.gz
+C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\obj\Debug\net10.0\compressed\i53iwlbvpf-{0}-6d66uxqgf8-6d66uxqgf8.gz
+C:\Users\PC\OneDrive\Документы\GitHub\AutorisationMVC\AutorisationMVC\bin\Debug\net10.0\Resend.dll
