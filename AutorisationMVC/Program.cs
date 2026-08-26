@@ -13,11 +13,6 @@ using Microsoft.Extensions.Configuration.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- Фикс: отключаем FileSystemWatcher для конфигурации ---
-// На Render (и в других контейнерных средах) лимит inotify-инстанс
-// ограничен (обычно 128), а ASP.NET Core по умолчанию создаёт
-// FileSystemWatcher для отслеживания изменений appsettings.json.
-// В контейнере hot-reload конфигурации не нужен, поэтому отключаем.
 foreach (var source in builder.Configuration.Sources)
 {
     if (source is JsonConfigurationSource jsonSource)
@@ -25,8 +20,6 @@ foreach (var source in builder.Configuration.Sources)
         jsonSource.ReloadOnChange = false;
     }
 }
-// -----------------------------------------------------------
-
 builder.Services.AddOptions();
 
 builder.Services.AddHttpClient<ResendClient>();
