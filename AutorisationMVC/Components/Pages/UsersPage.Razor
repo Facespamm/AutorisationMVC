@@ -1,108 +1,317 @@
 @using AutorisationMVC.Models
 @using AutorisationMVC.Services
-@using Npgsql.Internal.Postgres
+@using Autorisation.Enum
 @using Microsoft.AspNetCore.Authorization
+
 @attribute [Authorize]
-@inject UserServices UserServices;
-@page "/users" 
+
+@inject UserServices UserServices
+
+@page "/users"
+
 <div class="userPage">
     <div class="user-table">
-        <div user-table-button>
-            <button type="button" @onclick="BlockClick" disabled="@(selectedIds.Count == 0)" class="btn btn-primary ms-2 mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M8 0a4 4 0 0 1 4 4v2.05a2.5 2.5 0 0 1 2 2.45v5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5v-5a2.5 2.5 0 0 1 2-2.45V4a4 4 0 0 1 4-4m0 1a3 3 0 0 0-3 3v2h6V4a3 3 0 0 0-3-3"/>
-            </svg></button>
-            <button type="button" @onclick="UnblockClick" disabled="@(selectedIds.Count == 0)" class="btn btn-primary ms-2 mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock-fill" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M12 0a4 4 0 0 1 4 4v2.5h-1V4a3 3 0 1 0-6 0v2h.5A2.5 2.5 0 0 1 12 8.5v5A2.5 2.5 0 0 1 9.5 16h-7A2.5 2.5 0 0 1 0 13.5v-5A2.5 2.5 0 0 1 2.5 6H8V4a4 4 0 0 1 4-4"/>
-            </svg></button>
-            <button type="button" @onclick="DeleteUsersClick" class="btn btn-danger ms-2 mb-3">Delete users</button>
-            <button type="button" @onclick="DeleteStatusClick"  class="btn btn-danger ms-2 mb-3">Delete unverified</button>
-            <input type="text" placeholder="Filter" @bind="filter" class=""/>
-        </div>
-        <table class="table">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">
-                    <input type="checkbox" checked="@selectAll" @onchange="e => ToggleSelectAll(e.Value)"/>
-                </th>
-                <th scope="col">id</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Status</th>
-                <th scope="col">Last login</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var user in users
-                          .Where(u => string.IsNullOrWhiteSpace(filter) ||
-                                      u.Name.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                      u.Email.Contains(filter, StringComparison.OrdinalIgnoreCase))
-                          .OrderByDescending(u => u.LastLogin))           
-            {
-                <tr>
-                    <td>
-                        <input type="checkbox"
-                               checked="@selectedIds.Contains(user.Id)"
-                               @onchange="e => ToggleSelection(user.Id, e.Value)" />
-                    </td>
 
-                    <td>@user.Id</td>
-                    <td>@user.Name</td>
-                    <td>@user.Email</td>
-                    <td>@user.Status</td>
-                    <td>@user.LastLogin</td>
+        <div class="user-table-button d-flex align-items-center gap-2 mb-3">
+
+            <button type="button"
+                    @onclick="BlockClick"
+                    disabled="@(selectedIds.Count == 0)"
+                    class="btn btn-primary"
+                    title="Block selected users"
+                    aria-label="Block selected users">
+                Block
+            </button>
+
+            <button type="button"
+                    @onclick="UnblockClick"
+                    disabled="@(selectedIds.Count == 0)"
+                    class="btn btn-primary"
+                    title="Unblock selected users"
+                    aria-label="Unblock selected users">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="16"
+                     height="16"
+                     fill="currentColor"
+                     viewBox="0 0 16 16">
+
+                    <path fill-rule="evenodd"
+                          d="M12 0a4 4 0 0 1 4 4v2.5h-1V4a3 3 0 1 0-6 0v2h.5A2.5 2.5 0 0 1 12 8.5v5A2.5 2.5 0 0 1 9.5 16h-7A2.5 2.5 0 0 1 0 13.5v-5A2.5 2.5 0 0 1 2.5 6H8V4a4 4 0 0 1 4-4" />
+                </svg>
+
+            </button>
+
+            <button type="button"
+                    @onclick="DeleteUsersClick"
+                    disabled="@(selectedIds.Count == 0)"
+                    class="btn btn-danger"
+                    title="Delete selected users"
+                    aria-label="Delete selected users">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="16"
+                     height="16"
+                     fill="currentColor"
+                     viewBox="0 0 16 16">
+
+                    <path d="M2.5 1a1 1 0 0 0-1 1v1h13V2a1 1 0 0 0-1-1h-3l-.5-.5h-4L5.5 1z" />
+                    <path d="M3 4h10l-.8 10.2a1 1 0 0 1-1 .8H4.8a1 1 0 0 1-1-.8z" />
+
+                </svg>
+
+            </button>
+
+            <button type="button"
+                    @onclick="DeleteStatusClick"
+                    class="btn btn-danger"
+                    title="Delete all unverified users"
+                    aria-label="Delete all unverified users">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="16"
+                     height="16"
+                     fill="currentColor"
+                     viewBox="0 0 16 16">
+
+                    <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1z" />
+
+                    <path fill-rule="evenodd"
+                          d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m3.854 1.646a.5.5 0 0 0-.708.708L12.293 10.5l-1.147 1.146a.5.5 0 1 0 .708.708L13 11.207l1.146 1.147a.5.5 0 0 0 .708-.708L13.707 10.5l1.147-1.146a.5.5 0 0 0-.708-.708L13 9.793z" />
+
+                </svg>
+
+            </button>
+
+            <input type="text"
+                   placeholder="Filter"
+                   @bind="filter"
+                   @bind:event="oninput"
+                   class="form-control filter-input" />
+
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(statusMessage))
+        {
+            <div class="alert @(statusIsSuccess ? "alert-success" : "alert-danger")"
+                 role="alert">
+
+                @statusMessage
+
+            </div>
+        }
+
+        <table class="table user-table">
+
+            <thead class="thead-dark">
+
+                <tr>
+
+                    <th scope="col">
+
+                        <input type="checkbox"
+                               id="select-all"
+                               checked="@IsAllFilteredSelected"
+                               @onchange="e => ToggleSelectAll(e.Value)"
+                               title="Select all filtered users"
+                               aria-label="Select all filtered users" />
+
+                    </th>
+
+                    <th scope="col">id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Last login</th>
+
                 </tr>
-            }
+
+            </thead>
+
+            <tbody>
+
+                @foreach (var user in FilteredUsers)
+                {
+                    <tr @key="user.Id">
+
+                        <td>
+
+                            <input type="checkbox"
+                                   id="@getUniqIdValue(user.Id)"
+                                   checked="@selectedIds.Contains(user.Id)"
+                                   @onchange="e => ToggleSelection(user.Id, e.Value)"
+                                   aria-label="Select @user.Name" />
+
+                        </td>
+
+                        <td>@user.Id</td>
+                        <td>@user.Name</td>
+                        <td>@user.Email</td>
+                        <td>@user.Status</td>
+                        <td>@user.LastLogin</td>
+
+                    </tr>
+                }
+
             </tbody>
+
         </table>
+
     </div>
 </div>
+
 @code
 {
-    public async Task ToggleSelectAll(object? isChecked)
-    {
-        var check = isChecked is bool b && b;
-        if(check){selectedIds= users.Select(u=>u.Id).ToHashSet();}
-        else
-        {selectedIds.Clear();}
-
-    }
-    public async Task BlockClick()
-    {
-        if (selectedIds.Count == 0) return;
-        await UserServices.ChangeStatus("blocked", selectedIds.ToList());
-        users = await UserServices.GetUsers();
-    }
-    public async Task UnblockClick()
-    {
-        if (selectedIds.Count == 0) return;
-        await UserServices.ChangeStatus("active", selectedIds.ToList());
-        users = await UserServices.GetUsers();
-    }
-    public async Task DeleteUsersClick()
-    {
-        if (selectedIds.Count == 0) return;
-        await UserServices.DeleteUsers(selectedIds.ToList());
-        selectedIds.Clear();
-        users = await UserServices.GetUsers();
-
-    }
-    public async Task DeleteStatusClick()
-    {
-        await UserServices.DeleteUnverified();
-        users = await UserServices.GetUsers();
-    }
     private HashSet<int> selectedIds = new();
-    private List<Autorisations> users = new();
-    private string filter = "";
-    private bool selectAll;
 
-    private void ToggleSelection(int userId, object? isChecked)
+    private List<Autorisations> users = new();
+
+    private string filter = "";
+
+    private string statusMessage = "";
+
+    private bool statusIsSuccess;
+
+    private IEnumerable<Autorisations> FilteredUsers =>
+        users
+            .Where(u =>
+                string.IsNullOrWhiteSpace(filter) ||
+                u.Name.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                u.Email.Contains(filter, StringComparison.OrdinalIgnoreCase))
+            .OrderByDescending(u => u.LastLogin);
+
+    private bool IsAllFilteredSelected
     {
-        var check = isChecked is bool b && b;
-        if (check) selectedIds.Add(userId);
-        else selectedIds.Remove(userId);
+        get
+        {
+            var filteredIds = FilteredUsers
+                .Select(u => u.Id)
+                .ToList();
+
+            return filteredIds.Count > 0 &&
+                   filteredIds.All(selectedIds.Contains);
+        }
     }
+
+    private string getUniqIdValue(int userId)
+    {
+        return $"user-checkbox-{userId}";
+    }
+
+    private void ToggleSelectAll(object? value)
+    {
+        var isChecked = value is bool b && b;
+
+        var filteredIds = FilteredUsers
+            .Select(u => u.Id)
+            .ToHashSet();
+
+        if (isChecked)
+        {
+            selectedIds.UnionWith(filteredIds);
+        }
+        else
+        {
+            selectedIds.ExceptWith(filteredIds);
+        }
+    }
+
+    private void ToggleSelection(int userId, object? value)
+    {
+        var isChecked = value is bool b && b;
+
+        if (isChecked)
+            selectedIds.Add(userId);
+        else
+            selectedIds.Remove(userId);
+    }
+
+    private async Task BlockClick()
+    {
+        if (selectedIds.Count == 0)
+            return;
+
+        var result = await UserServices.ChangeStatus(
+            "blocked",
+            selectedIds.ToList());
+
+        ShowResult(result);
+
+        users = await UserServices.GetUsers();
+    }
+
+    private async Task UnblockClick()
+    {
+        if (selectedIds.Count == 0)
+            return;
+
+        var result = await UserServices.ChangeStatus(
+            "active",
+            selectedIds.ToList());
+
+        ShowResult(result);
+
+        users = await UserServices.GetUsers();
+    }
+
+    private async Task DeleteUsersClick()
+    {
+        if (selectedIds.Count == 0)
+            return;
+
+        var ids = selectedIds.ToList();
+
+        var result = await UserServices.DeleteUsers(ids);
+
+        if (result is Microsoft.AspNetCore.Mvc.OkResult)
+        {
+            ShowResult(
+                $"Successfully deleted {ids.Count} user(s).",
+                true);
+
+            selectedIds.Clear();
+        }
+        else
+        {
+            ShowResult(
+                "Failed to delete selected users.",
+                false);
+        }
+
+        users = await UserServices.GetUsers();
+    }
+
+    private async Task DeleteStatusClick()
+    {
+        var result = await UserServices.DeleteUnverified();
+
+        ShowResult(result);
+
+        users = await UserServices.GetUsers();
+
+        var existingIds = users
+            .Select(u => u.Id)
+            .ToHashSet();
+
+        selectedIds.IntersectWith(existingIds);
+    }
+
+    private void ShowResult(
+        string message,
+        bool? success = null)
+    {
+        statusMessage = message;
+
+        statusIsSuccess = success ??
+            message.StartsWith(
+                "Successfully",
+                StringComparison.OrdinalIgnoreCase);
+
+        StateHasChanged();
+    }
+
     protected override async Task OnInitializedAsync()
     {
         users = await UserServices.GetUsers();
-    }}
+    }
+}

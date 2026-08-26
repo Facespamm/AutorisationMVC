@@ -6,4 +6,12 @@
 .user-table thead th {
     background-color: black !important;
     color: white !important;
-}   
+}
+
+.user-table-button .filter-input {
+    max-width: 260px;
+}
+
+.user-table-button button {
+    min-width: 42px;
+}
