@@ -9,8 +9,21 @@ using AutorisationMVC.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration.Json;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// --- Фикс: отключаем FileSystemWatcher для конфигурации ---
+// Иначе на Render (и других контейнерных средах) можно упереться
+// в лимит inotify-инстанс и приложение упадёт при старте.
+foreach (var source in builder.Configuration.Sources)
+{
+    if (source is JsonConfigurationSource jsonSource)
+    {
+        jsonSource.ReloadOnChange = false;
+    }
+}
+// -----------------------------------------------------------
 
 builder.Services.AddOptions();
 
