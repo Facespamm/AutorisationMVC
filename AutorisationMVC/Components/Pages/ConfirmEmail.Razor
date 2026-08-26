@@ -1,7 +1,8 @@
 @page "/confirm"
 @layout AutorisationMVC.Components.Layout.EmptyLayout
 @using AutorisationMVC.Services
-@inject AutorisationUsers AutorisationUsers
+@inject RegisterServices RegisterServices
+
 
 <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="text-center">
@@ -28,7 +29,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        message = await AutorisationUsers.ConfirmToken(token);
+        message = await RegisterServices.ConfirmToken(token);
         isLoading = false;
     }
 }

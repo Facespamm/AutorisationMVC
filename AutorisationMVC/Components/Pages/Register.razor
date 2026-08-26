@@ -1,7 +1,8 @@
 @page "/registration"
 @using AutorisationMVC.Services
-@inject AutorisationUsers AutorisationUsers
+@inject UserServices UserServices
 @inject NavigationManager Navigation
+@inject RegisterServices RegisterServices
 @layout AutorisationMVC.Components.Layout.EmptyLayout   
 
 <div class="register-page">
@@ -50,7 +51,7 @@
              registerMail ="Passwords do not match";
              return;
         }
-        registerMail = await AutorisationUsers.Register(email, password, name);
+        registerMail = await RegisterServices.Register(email, password, name);
     
         if (registerMail == "Successfully registered.")
         {

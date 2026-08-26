@@ -14,8 +14,8 @@ using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient<IEmailSender, EmailSender>(); 
-builder.Services.AddScoped<AutorisationUsers>();
+builder.Services.AddTransient<IEmailSender, RegisterServices>(); 
+builder.Services.AddScoped<UserServices>();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
@@ -29,7 +29,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
-
+builder.Services.AddScoped<LoginUserHashCheck>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -60,23 +60,27 @@ app.MapPost("/api/auth/logout", async (HttpContext http) =>
      await http.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
      return Results.Redirect("/login");
 });
-app.MapPost("/api/auth/login", async (HttpContext http, AutorisationUsers user, HttpRequest req) =>
-{
-    var form = await req.ReadFormAsync();
-    var email = form["email"].ToString();
-    var password = form["password"].ToString();
-    
-    var result = await user.LoginWithClaims(email, password);
-    
-    if (result == null)
+app.MapPost("/api/auth/login",
+    async (
+        HttpContext http,
+        HttpRequest req,
+        LoginUserHashCheck check) =>
     {
-        return Results.Redirect("/login?error=1");
-    }
-    
-    await http.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, result);
-    
-    return Results.Redirect("/users");
-});
+        var form = await req.ReadFormAsync();
+
+        var email = form["email"].ToString();
+        var password = form["password"].ToString();
+
+        var request = new LoginUserHashCheck.Request(email, password);
+
+        var result = await check.Handle(request);
+
+        await http.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            result);
+
+        return Results.Redirect("/users");
+    });
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")

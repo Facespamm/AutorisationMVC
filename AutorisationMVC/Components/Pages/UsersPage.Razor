@@ -2,7 +2,7 @@
 @using AutorisationMVC.Models
 @using AutorisationMVC.Services
 @using Npgsql.Internal.Postgres
-@inject AutorisationUsers AutorisationUsers;
+@inject UserServices UserServices;
 @page "/users" 
 <div class="userPage">
     <div class="user-table">
@@ -68,27 +68,27 @@
     public async Task BlockClick()
     {
         if (selectedIds.Count == 0) return;
-        await AutorisationUsers.ChangeStatus("blocked", selectedIds.ToList());
-        users = await AutorisationUsers.GetUsers();
+        await UserServices.ChangeStatus("blocked", selectedIds.ToList());
+        users = await UserServices.GetUsers();
     }
     public async Task UnblockClick()
     {
         if (selectedIds.Count == 0) return;
-        await AutorisationUsers.ChangeStatus("active", selectedIds.ToList());
-        users = await AutorisationUsers.GetUsers();
+        await UserServices.ChangeStatus("active", selectedIds.ToList());
+        users = await UserServices.GetUsers();
     }
     public async Task DeleteUsersClick()
     {
         if (selectedIds.Count == 0) return;
-        await AutorisationUsers.DeleteUsers(selectedIds.ToList());
+        await UserServices.DeleteUsers(selectedIds.ToList());
         selectedIds.Clear();
-        users = await AutorisationUsers.GetUsers();
+        users = await UserServices.GetUsers();
 
     }
     public async Task DeleteStatusClick()
     {
-        await AutorisationUsers.DeleteUnverified();
-        users = await AutorisationUsers.GetUsers();
+        await UserServices.DeleteUnverified();
+        users = await UserServices.GetUsers();
     }
     private HashSet<int> selectedIds = new();
     private List<Autorisations> users = new();
@@ -103,5 +103,5 @@
     }
     protected override async Task OnInitializedAsync()
     {
-        users = await AutorisationUsers.GetUsers();
+        users = await UserServices.GetUsers();
     }}
