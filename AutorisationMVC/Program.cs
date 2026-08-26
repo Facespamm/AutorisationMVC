@@ -9,30 +9,31 @@ using AutorisationMVC.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-{
-    Args = args
-});
 
-builder.Configuration.Sources
-    .OfType<Microsoft.Extensions.Configuration.Json.JsonConfigurationSource>()
-    .ToList()
-    .ForEach(x => x.ReloadOnChange = false);builder.Services.AddOptions();
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddOptions();
+
 builder.Services.AddHttpClient<ResendClient>();
+
 builder.Services.AddTransient<IResend>(sp =>
 {
-    var apiKey =
-        Environment.GetEnvironmentVariable("RESEND_API_KEY");
+    var apiKey = Environment.GetEnvironmentVariable("RESEND_API_KEY");
 
     return ResendClient.Create(apiKey);
 });
+
 builder.Services.AddScoped<UserServices>();
 
-builder.Services.AddRazorComponents()
+builder.Services
+    .AddRazorComponents()
     .AddInteractiveServerComponents();
+
 builder.Services.AddScoped<RegisterServices>();
+
 builder.Services.AddScoped<IEmailSender>(sp =>
     sp.GetRequiredService<RegisterServices>());
+
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -44,7 +45,8 @@ builder.Services
 
         options.Events.OnValidatePrincipal = async context =>
         {
-            var id = context.Principal?.FindFirstValue(ClaimTypes.NameIdentifier);
+            var id = context.Principal?
+                .FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (!int.TryParse(id, out var userId))
             {
@@ -70,9 +72,11 @@ builder.Services
     });
 
 builder.Services.AddAuthorization();
+
 builder.Services.AddCascadingAuthenticationState();
 
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
+
 builder.Services.AddScoped<LoginUserHashCheck>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -90,9 +94,11 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseRouting();
 
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.UseAntiforgery();
@@ -107,7 +113,8 @@ app.MapPost("/api/auth/logout", async (HttpContext http) =>
     return Results.Redirect("/login");
 });
 
-app.MapPost("/api/auth/login",
+app.MapPost(
+    "/api/auth/login",
     async (
         HttpContext http,
         HttpRequest req,
@@ -118,7 +125,9 @@ app.MapPost("/api/auth/login",
         var email = form["email"].ToString();
         var password = form["password"].ToString();
 
-        var request = new LoginUserHashCheck.Request(email, password);
+        var request = new LoginUserHashCheck.Request(
+            email,
+            password);
 
         ClaimsPrincipal result;
 
@@ -127,7 +136,9 @@ app.MapPost("/api/auth/login",
             result = await check.Handle(request);
 
             if (result?.Identity?.IsAuthenticated != true)
+            {
                 return Results.Redirect("/login?error=1");
+            }
         }
         catch
         {
