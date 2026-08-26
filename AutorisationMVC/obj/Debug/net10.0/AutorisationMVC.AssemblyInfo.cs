@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AutorisationMVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+769cc86e5c362426c06ca071128c2ae33bcb50c0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a349eacf91755d1542877db1a2c181f6f319b9cb")]
 [assembly: System.Reflection.AssemblyProductAttribute("AutorisationMVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AutorisationMVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

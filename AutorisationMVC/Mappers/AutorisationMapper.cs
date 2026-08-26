@@ -1,5 +1,4 @@
 using Autorisation.Enum;
-using Autorisation.Migrations;
 using AutorisationMVC.Dto;
 using AutorisationMVC.Models;
 

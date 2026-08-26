@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Autorisation.Migrations
+namespace AutorisationMVC.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -21,12 +21,20 @@ namespace Autorisation.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     password = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
+                    ConfirmationToken = table.Column<string>(type: "text", nullable: true),
+                    Status = table.Column<int>(type: "integer", nullable: false),
                     LastLogin = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Autorisations", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Autorisations_Email",
+                table: "Autorisations",
+                column: "Email",
+                unique: true);
         }
 
         /// <inheritdoc />
