@@ -45,13 +45,13 @@ public class RegisterServices : IEmailSender
     {
         var subject = "Подтверждение регистрации";
 
-        var appUrl = _configuration["AppUrl"] ?? "http://localhost:5149";
+        var appUrl = "https://autorisationmvc.onrender.com";
 
         var message =
             "Вы успешно зарегистрировались на сайте.\n\n" +
             "Пожалуйста, подтвердите свою регистрацию, " +
             "перейдя по ссылке:\n\n" +
-            $"{appUrl}/confirm?token={token}";
+            $"{appUrl}/confirm?token={Uri.EscapeDataString(token)}";
 
         await SendEmailAsync(
             email,
@@ -60,7 +60,6 @@ public class RegisterServices : IEmailSender
 
         return new OkResult();
     }
-
     public async Task<string> Register(
         string email,
         string password,
