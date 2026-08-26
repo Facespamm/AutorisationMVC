@@ -29,6 +29,8 @@ public class RegisterServices : IEmailSender
         string subject,
         string message)
     {
+        Console.WriteLine($"Sending email to: {email}");
+
         await _resend.EmailSendAsync(
             new EmailMessage
             {
@@ -37,8 +39,9 @@ public class RegisterServices : IEmailSender
                 Subject = subject,
                 TextBody = message
             });
-    }
 
+        Console.WriteLine($"Email sent to: {email}");
+    }
     public async Task<IActionResult> SendConfirmEmail(
         string email,
         string token)
@@ -76,7 +79,7 @@ public class RegisterServices : IEmailSender
 
         var registerDto = new RegistrationDto
         {
-            Email = email,
+            Email = email.Trim(),
             password = hasher.HashPassword(password),
             Name = name,
             ConfirmationToken = Guid.NewGuid().ToString(),
@@ -88,13 +91,23 @@ public class RegisterServices : IEmailSender
         await _context.AddAsync(newUser);
         await _context.SaveChangesAsync();
 
-        await SendConfirmEmail(
-            newUser.Email,
-            newUser.ConfirmationToken);
+        try
+        {
+            await SendConfirmEmail(
+                newUser.Email,
+                newUser.ConfirmationToken);
 
-        return "Successfully registered.";
+            return "Successfully registered.";
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("=== RESEND ERROR ===");
+            Console.WriteLine(ex.ToString());
+            Console.WriteLine("====================");
+
+            return "Ошибка отправки письма: " + ex.Message;
+        }
     }
-
     public async Task<string> ConfirmToken(string token)
     {
         var result = await _context.Autorisations
