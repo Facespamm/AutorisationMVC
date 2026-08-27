@@ -2,10 +2,12 @@
 @using AutorisationMVC.Services
 @using Autorisation.Enum
 @using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
 
 @attribute [Authorize]
 
 @inject UserServices UserServices
+@inject AuthenticationStateProvider AuthProvider
 
 @page "/users"
 
@@ -216,6 +218,12 @@
         }
     }
 
+    private async Task<int> GetCurrentUserIdAsync()
+    {
+        var auth = await AuthProvider.GetAuthenticationStateAsync();
+        var idClaim = auth.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        return int.TryParse(idClaim, out var id) ? id : 0;
+    }
     private void ToggleSelection(int userId, object? value)
     {
         var isChecked = value is bool b && b;
@@ -230,10 +238,10 @@
     {
         if (selectedIds.Count == 0)
             return;
-
+        var currentUserId = await GetCurrentUserIdAsync();
         var result = await UserServices.ChangeStatus(
             "blocked",
-            selectedIds.ToList());
+            selectedIds.ToList(),currentUserId);
 
         ShowResult(result);
 
@@ -244,10 +252,10 @@
     {
         if (selectedIds.Count == 0)
             return;
-
+        var currentUserId = await GetCurrentUserIdAsync();
         var result = await UserServices.ChangeStatus(
             "active",
-            selectedIds.ToList());
+            selectedIds.ToList(), currentUserId);
 
         ShowResult(result);
 
@@ -260,8 +268,9 @@
             return;
 
         var ids = selectedIds.ToList();
-
-        var result = await UserServices.DeleteUsers(ids);
+        
+        var currentUserId = await GetCurrentUserIdAsync();
+        var result = await UserServices.DeleteUsers(ids,currentUserId);
 
         if (result is Microsoft.AspNetCore.Mvc.OkResult)
         {
@@ -283,7 +292,8 @@
 
     private async Task DeleteStatusClick()
     {
-        var result = await UserServices.DeleteUnverified();
+        var currentUserId = await GetCurrentUserIdAsync();
+        var result = await UserServices.DeleteUnverified(currentUserId);
 
         ShowResult(result);
 

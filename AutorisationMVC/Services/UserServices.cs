@@ -24,7 +24,14 @@ public class UserServices
         var users = await _context.Autorisations.OrderByDescending(x => x.LastLogin).ToListAsync();
         return users;
     }
-    
+
+    public async Task<bool> IsUserActiveAsync(int id)
+    {
+        var user = await _context.Autorisations
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == id);
+        return user != null && user.Status != StatusEnum.Blocked;
+    }
     public async Task<Autorisations> GetByEmail(string email)
     {
         var user = await _context.Autorisations.FirstOrDefaultAsync(x => x.Email == email);
@@ -34,28 +41,38 @@ public class UserServices
         }
         return user;
     }
-    public async Task<string> ChangeStatus(string status, List<int> ids)
-    {
-        if (!System.Enum.TryParse<StatusEnum>(status, true, out var parsedStatus))
+        public async Task<string> ChangeStatus(string status, List<int> ids, int currentId)
         {
-            return "Invalid status value.";
-        }
+            if (!await IsUserActiveAsync(currentId))
+            {
+                return "User is blocking.";
+            }
 
-        var users = await _context.Autorisations.Where(x => ids.Contains(x.Id)).ToListAsync();
-        if (users.Count == 0)
-        {
-            return "No users found.";
+            if (!System.Enum.TryParse<StatusEnum>(status, true, out var parsedStatus))
+            {
+                return "Invalid status value.";
+            }
+
+            var users = await _context.Autorisations.Where(x => ids.Contains(x.Id)).ToListAsync();
+            if (users.Count == 0)
+            {
+                return "No users found.";
+            }
+
+            foreach (var user in users)
+            {
+                user.Status = parsedStatus;
+            }
+            await _context.SaveChangesAsync();
+            return "Successfully changed status";
         }
-        foreach (var user in users)
-        {
-            user.Status = parsedStatus;
-        }
-        await _context.SaveChangesAsync();
-        return "Successfully changed status";
-    }
     
-    public async Task<string> DeleteUnverified()
+    public async Task<string> DeleteUnverified(int currentId)
     {
+        if(!await IsUserActiveAsync(currentId))
+        {
+            return "User is blocking.";
+        }
         var del = await _context.Autorisations.Where(x => x.Status == StatusEnum.Unverified).ToListAsync();
         if (del.Count == 0)
         {
@@ -90,11 +107,15 @@ public class UserServices
         var claimIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         return new ClaimsPrincipal(claimIdentity);
     }
-    public async Task<IActionResult> DeleteUsers(List<int> ids)
+    public async Task<IActionResult> DeleteUsers(List<int> ids,int currentId)
     {
+        if (!await IsUserActiveAsync(currentId))
+        {
+            return new ForbidResult();
+        }
         var user = await _context.Autorisations.Where(x => ids.Contains(x.Id)).ToListAsync();
 
-        if (user.Count == 0)
+        if (user.Count ==  0)
         {
             return new NotFoundResult();
         }

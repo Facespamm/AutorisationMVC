@@ -6,15 +6,15 @@
 
     public sealed class LoginUserHashCheck(
         IPasswordHasher passwordHasher,
-        AppDbContext appDbContext)
+        AppDbContext appDbContext,
+        UserServices userServices)
     {
         public record Request(string Email, string Password);
 
         public async Task<ClaimsPrincipal> Handle(Request request)
         {
-            UserServices users = new UserServices(appDbContext);
-
-            var user = await users.GetByEmail(request.Email);
+            
+            var user = await userServices.GetByEmail(request.Email);
 
             if (user == null)
             {
@@ -30,7 +30,7 @@
                 throw new Exception($"Wrong password");
             }
 
-            var claims = await users.LoginWithClaims(
+            var claims = await userServices.LoginWithClaims(
                 request.Email,
                 request.Password);
 

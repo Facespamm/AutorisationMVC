@@ -44,6 +44,7 @@ public class RegisterServices : IEmailSender
 
         Console.WriteLine($"Email sent to: {email}");
     }
+
     public async Task<IActionResult> SendConfirmEmail(
         string email,
         string token)
@@ -65,6 +66,7 @@ public class RegisterServices : IEmailSender
 
         return new OkResult();
     }
+
     public async Task<string> Register(
         string email,
         string password,
@@ -93,23 +95,24 @@ public class RegisterServices : IEmailSender
         await _context.AddAsync(newUser);
         await _context.SaveChangesAsync();
 
-        try
+        _ = Task.Run(async () =>
         {
-            await SendConfirmEmail(
-                newUser.Email,
-                newUser.ConfirmationToken);
-
-            return "Successfully registered.";
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("=== RESEND ERROR ===");
-            Console.WriteLine(ex.ToString());
-            Console.WriteLine("====================");
-
-            return "Ошибка отправки письма: " + ex.Message;
-        }
+            try
+            {
+                await SendConfirmEmail(
+                    newUser.Email,
+                    newUser.ConfirmationToken);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("=== RESEND ERROR (background) ===");
+                Console.WriteLine(ex.ToString());
+                Console.WriteLine("==================================");
+            }
+        }); 
+        return "Registration successful.";
     }
+
     public async Task<string> ConfirmToken(string token)
     {
         var result = await _context.Autorisations
