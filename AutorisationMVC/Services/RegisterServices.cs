@@ -31,10 +31,12 @@ public class RegisterServices : IEmailSender
     {
         Console.WriteLine($"Sending email to: {email}");
 
+        var fromAddress = _configuration["Resend:FromEmail"] ?? "noreply@xyzs.click";
+
         await _resend.EmailSendAsync(
             new EmailMessage
             {
-                From = "onboarding@resend.dev",
+                From = fromAddress,
                 To = email.Trim(),
                 Subject = subject,
                 TextBody = message
