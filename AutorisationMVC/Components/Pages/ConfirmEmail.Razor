@@ -6,16 +6,17 @@
 
 <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="text-center">
-        <h3 class="mb-3">Подтверждение почты</h3>
+        <h3 class="mb-3">Confirm mail</h3>
 
         @if (isLoading)
         {
-            <p>Проверяем ссылку...</p>
+            <p>Checking the link....</p>
         }
         else
         {
             <p>@message</p>
-            <a href="/login" class="btn btn-primary mt-3">Перейти к входу</a>
+            <a href="/login" class="btn btn-primary mt-3">Go to login
+            </a>
         }
     </div>
 </div>
