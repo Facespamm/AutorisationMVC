@@ -53,15 +53,14 @@
                 <label for="ExampleInputPassword">Password</label>
 
                 <input @bind="password"
+                       type="password"
                        class="form-control mb-3"
                        id="ExampleInputPassword"
-                       aria-describedby="passwordHelp"
                        placeholder="Please Enter password"
                        required>
-
                 <label for="ExampleInputCheckPassword">Check password</label>
 
-                <input @bind="checkPassword"
+                <input @bind="checkPassword" type="password"
                        class="form-control mb-3"
                        id="ExampleInputCheckPassword"
                        aria-describedby="passwordCheckHelp"
