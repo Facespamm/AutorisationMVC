@@ -32,6 +32,7 @@ public class UserServices
             .FirstOrDefaultAsync(x => x.Id == id);
         return user != null && user.Status != StatusEnum.Blocked;
     }
+
     public async Task<Autorisations> GetByEmail(string email)
     {
         var user = await _context.Autorisations.FirstOrDefaultAsync(x => x.Email == email);
@@ -41,48 +42,58 @@ public class UserServices
         }
         return user;
     }
-        public async Task<string> ChangeStatus(string status, List<int> ids, int currentId)
-        {
-            if (!await IsUserActiveAsync(currentId))
-            {
-                return "User is blocking.";
-            }
 
-            if (!System.Enum.TryParse<StatusEnum>(status, true, out var parsedStatus))
-            {
-                return "Invalid status value.";
-            }
-
-            var users = await _context.Autorisations.Where(x => ids.Contains(x.Id)).ToListAsync();
-            if (users.Count == 0)
-            {
-                return "No users found.";
-            }
-
-            foreach (var user in users)
-            {
-                user.Status = parsedStatus;
-            }
-            await _context.SaveChangesAsync();
-            return "Successfully changed status";
-        }
-    
-    public async Task<string> DeleteUnverified(int currentId)
+    public async Task<(string Message, bool AffectsSelf)> ChangeStatus(string status, List<int> ids, int currentId)
     {
-        if(!await IsUserActiveAsync(currentId))
+        // note: защита на уровне сервиса — если сам вызывающий УЖЕ был заблокирован
+        // до этого действия (например, куки ещё не успели инвалидироваться), отказываем сразу
+        if (!await IsUserActiveAsync(currentId))
         {
-            return "User is blocking.";
+            return ("You have been blocked.", true);
         }
+
+        if (!System.Enum.TryParse<StatusEnum>(status, true, out var parsedStatus))
+        {
+            return ("Invalid status value.", false);
+        }
+
+        var users = await _context.Autorisations.Where(x => ids.Contains(x.Id)).ToListAsync();
+        if (users.Count == 0)
+        {
+            return ("No users found.", false);
+        }
+
+        foreach (var user in users)
+        {
+            user.Status = parsedStatus;
+        }
+        await _context.SaveChangesAsync();
+
+        // note: заодно проверяем — не заблокировал ли пользователь СЕЙЧАС самого себя
+        var affectsSelf = parsedStatus == StatusEnum.Blocked && ids.Contains(currentId);
+
+        return ("Successfully changed status", affectsSelf);
+    }
+
+    public async Task<(string Message, bool AffectsSelf)> DeleteUnverified(int currentId)
+    {
+        if (!await IsUserActiveAsync(currentId))
+        {
+            return ("You have been blocked.", true);
+        }
+
         var del = await _context.Autorisations.Where(x => x.Status == StatusEnum.Unverified).ToListAsync();
         if (del.Count == 0)
         {
-            return "No unverified users found.";
+            return ("No unverified users found.", false);
         }
+
+        var affectsSelf = del.Any(u => u.Id == currentId);
 
         _context.Autorisations.RemoveRange(del);
         await _context.SaveChangesAsync();
 
-        return "Successfully deleted unverified user.";
+        return ("Successfully deleted unverified user.", affectsSelf);
     }
 
     public async Task<ClaimsPrincipal> LoginWithClaims(string email, string password)
@@ -107,22 +118,26 @@ public class UserServices
         var claimIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         return new ClaimsPrincipal(claimIdentity);
     }
-    public async Task<IActionResult> DeleteUsers(List<int> ids,int currentId)
+
+    public async Task<(IActionResult Result, bool AffectsSelf)> DeleteUsers(List<int> ids, int currentId)
     {
         if (!await IsUserActiveAsync(currentId))
         {
-            return new ForbidResult();
+            return (new ForbidResult(), true);
         }
+
         var user = await _context.Autorisations.Where(x => ids.Contains(x.Id)).ToListAsync();
 
-        if (user.Count ==  0)
+        if (user.Count == 0)
         {
-            return new NotFoundResult();
+            return (new NotFoundResult(), false);
         }
+
+        var affectsSelf = ids.Contains(currentId);
 
         _context.Autorisations.RemoveRange(user);
         await _context.SaveChangesAsync();
 
-        return new OkResult();
+        return (new OkResult(), affectsSelf);
     }
 }

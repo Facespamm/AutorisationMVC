@@ -3,11 +3,9 @@
 @using AutorisationMVC.Services
 @inject RegisterServices RegisterServices
 
-
 <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="text-center">
         <h3 class="mb-3">Confirm mail</h3>
-
         @if (isLoading)
         {
             <p>Checking the link....</p>
@@ -20,14 +18,13 @@
         }
     </div>
 </div>
-
 @code {
     [Parameter, SupplyParameterFromQuery]
     public string token { get; set; }
 
     private string message;
     private bool isLoading = true;
-
+    
     protected override async Task OnInitializedAsync()
     {
         message = await RegisterServices.ConfirmToken(token);
